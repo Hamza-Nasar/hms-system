@@ -9,7 +9,6 @@ import {
     TextField,
     Button,
     Avatar,
-    Grid,
     Divider,
     Alert,
     Chip,
@@ -57,38 +56,42 @@ export default function ProfilePage() {
                 My Profile
             </Typography>
 
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                    <Card>
-                        <CardContent sx={{ textAlign: "center", py: 4 }}>
-                            <Avatar
-                                sx={{
-                                    width: 120,
-                                    height: 120,
-                                    mx: "auto",
-                                    mb: 2,
-                                    bgcolor: "primary.main",
-                                    fontSize: "3rem",
-                                }}
-                            >
-                                {session?.user?.name?.charAt(0).toUpperCase() || "U"}
-                            </Avatar>
-                            <Typography variant="h6" fontWeight={600}>
-                                {session?.user?.name || "User"}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {session?.user?.email}
-                            </Typography>
-                            <Chip
-                                label={(session?.user as any)?.role || "PATIENT"}
-                                color="primary"
-                                sx={{ mt: 2 }}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 2fr" },
+                    gap: 3,
+                }}
+            >
+                <Card>
+                    <CardContent sx={{ textAlign: "center", py: 4 }}>
+                        <Avatar
+                            sx={{
+                                width: 120,
+                                height: 120,
+                                mx: "auto",
+                                mb: 2,
+                                bgcolor: "primary.main",
+                                fontSize: "3rem",
+                            }}
+                        >
+                            {session?.user?.name?.charAt(0).toUpperCase() || "U"}
+                        </Avatar>
+                        <Typography variant="h6" fontWeight={600}>
+                            {session?.user?.name || "User"}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {session?.user?.email}
+                        </Typography>
+                        <Chip
+                            label={(session?.user as any)?.role || "PATIENT"}
+                            color="primary"
+                            sx={{ mt: 2 }}
+                        />
+                    </CardContent>
+                </Card>
 
-                <Grid item xs={12} md={8}>
+                <Card>
                     <Card>
                         <CardContent>
                             <Typography variant="h6" fontWeight={600} mb={3}>
@@ -134,8 +137,7 @@ export default function ProfilePage() {
                             </form>
                         </CardContent>
                     </Card>
-                </Grid>
-            </Grid>
+            </Box>
         </Box>
     );
 }
