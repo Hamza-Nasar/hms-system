@@ -167,7 +167,7 @@ export default function DoctorSchedulePage() {
             </Box>
 
             <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <Card>
                         <CardContent>
                             <Typography variant="h6" fontWeight={600} gutterBottom>
@@ -211,7 +211,7 @@ export default function DoctorSchedulePage() {
                     </Card>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                     <Card>
                         <CardContent>
                             <Typography variant="h6" fontWeight={600} gutterBottom>
