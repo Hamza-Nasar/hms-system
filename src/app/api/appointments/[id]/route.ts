@@ -47,14 +47,14 @@ export async function PATCH(
                 patient: { select: { name: true, userId: true } },
                 doctor: { select: { userId: true, user: { select: { name: true } } } },
             },
-        });
+        }) as any;
 
         if (!appointment) {
             return NextResponse.json({ error: "Failed to update appointment" }, { status: 500 });
         }
 
         // Create notification for patient
-        if (appointment.patient?.userId) {
+        if (appointment?.patient?.userId) {
             const statusMessages: Record<string, { title: string; message: string }> = {
                 CONFIRMED: {
                     title: "Appointment Confirmed",
