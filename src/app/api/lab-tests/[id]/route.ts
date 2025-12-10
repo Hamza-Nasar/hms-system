@@ -28,7 +28,11 @@ export async function PATCH(
             include: {
                 patient: { select: { name: true, userId: true } },
             },
-        });
+        }) as any;
+
+        if (!labTest) {
+            return NextResponse.json({ error: "Lab test not found" }, { status: 404 });
+        }
 
         // Emit real-time updates
         try {
