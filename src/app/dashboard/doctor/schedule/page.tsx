@@ -215,11 +215,10 @@ export default function DoctorSchedulePage() {
                 </Card>
 
                 <Card>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" fontWeight={600} gutterBottom>
-                                Upcoming Appointments
-                            </Typography>
+                    <CardContent>
+                        <Typography variant="h6" fontWeight={600} gutterBottom>
+                            Upcoming Appointments
+                        </Typography>
                             {appointments.length === 0 ? (
                                 <Alert severity="info" sx={{ mt: 2 }}>
                                     No appointments scheduled.
