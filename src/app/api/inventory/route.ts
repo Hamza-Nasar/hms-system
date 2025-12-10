@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
             });
 
             await Promise.all(
-                admins.map((admin) =>
+                admins.map((admin: any) =>
                     prisma.notification.create({
                         data: {
                             userId: admin.id,
