@@ -19,7 +19,7 @@ export async function PATCH(
         // Verify notification belongs to user
         const notification = await prisma.notification.findUnique({
             where: { id },
-        });
+        }) as any;
 
         if (!notification) {
             return NextResponse.json({ error: "Notification not found" }, { status: 404 });
@@ -56,7 +56,7 @@ export async function DELETE(
         // Verify notification belongs to user
         const notification = await prisma.notification.findUnique({
             where: { id },
-        });
+        }) as any;
 
         if (!notification) {
             return NextResponse.json({ error: "Notification not found" }, { status: 404 });
