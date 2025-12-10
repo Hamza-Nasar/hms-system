@@ -105,13 +105,13 @@ export async function POST(req: NextRequest) {
             
             await emitPrescriptionUpdate({
                 prescriptionId: prescription.id,
-                patientId: prescription.patient.userId,
-                doctorId: prescription.doctor.userId,
+                patientId: prescription.patient?.userId || "",
+                doctorId: prescription.doctor?.userId || "",
                 action: 'created',
             });
 
             // Notify patient
-            if (prescription.patient.userId) {
+            if (prescription.patient?.userId) {
                 await emitNotificationToUser(prescription.patient.userId, {
                     title: "New Prescription",
                     message: `A new prescription has been created for you.`,

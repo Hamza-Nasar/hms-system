@@ -36,8 +36,8 @@ export async function PATCH(
             const { emitPrescriptionUpdate } = await import("@/lib/socket-server");
             await emitPrescriptionUpdate({
                 prescriptionId: prescription.id,
-                patientId: prescription.patient.userId,
-                doctorId: prescription.doctor.userId,
+                patientId: prescription.patient?.userId || "",
+                doctorId: prescription.doctor?.userId || "",
                 action: 'updated',
             });
         } catch (error) {

@@ -36,12 +36,12 @@ export async function PATCH(
             
             await emitLabTestUpdate({
                 labTestId: labTest.id,
-                patientId: labTest.patient.userId,
+                patientId: labTest.patient?.userId || "",
                 action: 'updated',
             });
 
             // Notify patient if test is completed
-            if (labTest.status === "COMPLETED" && labTest.patient.userId) {
+            if (labTest.status === "COMPLETED" && labTest.patient?.userId) {
                 await emitNotificationToUser(labTest.patient.userId, {
                     title: "Lab Test Results Available",
                     message: `Results for "${labTest.testName}" are now available.`,

@@ -65,10 +65,10 @@ export async function POST(req: NextRequest) {
         // Emit real-time notification to doctor
         const { emitNotificationToUser, emitAppointmentUpdate } = await import("@/lib/socket-server");
         
-        if (appointment.doctor.userId) {
+        if (appointment.doctor?.userId) {
             await emitNotificationToUser(appointment.doctor.userId, {
                 title: "New Appointment Request",
-                message: `You have a new appointment request from ${appointment.patient.name}`,
+                message: `You have a new appointment request from ${appointment.patient?.name || 'a patient'}`,
                 type: "appointment",
                 link: `/dashboard/appointments`,
             });
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
                 data: {
                     userId: appointment.doctor.userId,
                     title: "New Appointment Request",
-                    message: `You have a new appointment request from ${appointment.patient.name}`,
+                    message: `You have a new appointment request from ${appointment.patient?.name || 'a patient'}`,
                     type: "APPOINTMENT",
                     link: `/dashboard/appointments`,
                 },
@@ -89,8 +89,8 @@ export async function POST(req: NextRequest) {
         await emitAppointmentUpdate({
             appointmentId: appointment.id,
             status: "PENDING",
-            patientId: appointment.patient.userId,
-            doctorId: appointment.doctor.userId,
+            patientId: appointment.patient?.userId || "",
+            doctorId: appointment.doctor?.userId || "",
         });
 
         return NextResponse.json(appointment, { status: 201 });

@@ -84,12 +84,12 @@ export async function POST(req: NextRequest) {
             
             await emitLabTestUpdate({
                 labTestId: labTest.id,
-                patientId: labTest.patient.userId,
+                patientId: labTest.patient?.userId || "",
                 action: 'created',
             });
 
             // Notify patient
-            if (labTest.patient.userId) {
+            if (labTest.patient?.userId) {
                 await emitNotificationToUser(labTest.patient.userId, {
                     title: "New Lab Test",
                     message: `A new lab test "${labTest.testName}" has been ordered for you.`,

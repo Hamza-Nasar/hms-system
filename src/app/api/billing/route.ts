@@ -103,12 +103,12 @@ export async function POST(req: NextRequest) {
             
             await emitBillingUpdate({
                 billId: bill.id,
-                patientId: bill.patient.userId,
+                patientId: bill.patient?.userId || "",
                 action: 'created',
         });
 
         // Emit real-time notification to patient
-        if (bill.patient.userId) {
+        if (bill.patient?.userId) {
             await emitNotificationToUser(bill.patient.userId, {
                 title: "New Bill Generated",
                 message: `A new bill of $${bill.amount.toFixed(2)} has been generated for you.`,

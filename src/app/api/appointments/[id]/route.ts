@@ -93,14 +93,16 @@ export async function PATCH(
                     await emitAppointmentUpdate({
                         appointmentId: id,
                         status,
-                        patientId: appointment.patient.userId,
-                        doctorId: appointment.doctor.userId,
+                        patientId: appointment.patient?.userId || "",
+                        doctorId: appointment.doctor?.userId || "",
                     });
-                    await emitNotificationToUser(appointment.patient.userId, {
-                        ...notification,
-                        type: "appointment",
-                        link: `/dashboard/appointments`,
-                    });
+                    if (appointment.patient?.userId) {
+                        await emitNotificationToUser(appointment.patient.userId, {
+                            ...notification,
+                            type: "appointment",
+                            link: `/dashboard/appointments`,
+                        });
+                    }
                 } catch (error) {
                     // Socket.io not available - continue without real-time updates
                     console.log("Socket.io not available, skipping real-time updates");
