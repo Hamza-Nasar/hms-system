@@ -13,7 +13,6 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
-    Grid,
     TextField,
     Tabs,
     Tab,
@@ -183,75 +182,77 @@ export default function SettingsPage() {
 
             {/* Profile Tab */}
             <TabPanel value={tabValue} index={0}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6" fontWeight={600} mb={3}>
-                                    Profile Information
-                                </Typography>
-                                <TextField
-                                    label="Full Name"
-                                    fullWidth
-                                    margin="normal"
-                                    value={profileData.name}
-                                    onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                                />
-                                <TextField
-                                    label="Email"
-                                    type="email"
-                                    fullWidth
-                                    margin="normal"
-                                    value={profileData.email}
-                                    onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
-                                    disabled
-                                />
-                                <TextField
-                                    label="Phone Number"
-                                    fullWidth
-                                    margin="normal"
-                                    value={profileData.phone}
-                                    onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
-                                />
-                                <Button
-                                    variant="contained"
-                                    startIcon={<SaveIcon />}
-                                    onClick={handleSave}
-                                    sx={{ mt: 2 }}
+                <Box
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                        gap: 3,
+                    }}
+                >
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" fontWeight={600} mb={3}>
+                                Profile Information
+                            </Typography>
+                            <TextField
+                                label="Full Name"
+                                fullWidth
+                                margin="normal"
+                                value={profileData.name}
+                                onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                            />
+                            <TextField
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                margin="normal"
+                                value={profileData.email}
+                                onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                                disabled
+                            />
+                            <TextField
+                                label="Phone Number"
+                                fullWidth
+                                margin="normal"
+                                value={profileData.phone}
+                                onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                            />
+                            <Button
+                                variant="contained"
+                                startIcon={<SaveIcon />}
+                                onClick={handleSave}
+                                sx={{ mt: 2 }}
+                            >
+                                Save Profile
+                            </Button>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" fontWeight={600} mb={3}>
+                                Appearance
+                            </Typography>
+                            <FormControl fullWidth>
+                                <InputLabel>Theme</InputLabel>
+                                <Select
+                                    value={mode}
+                                    onChange={(e) => handleThemeChange(e.target.value)}
+                                    label="Theme"
                                 >
-                                    Save Profile
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6" fontWeight={600} mb={3}>
-                                    Appearance
-                                </Typography>
-                                <FormControl fullWidth>
-                                    <InputLabel>Theme</InputLabel>
-                                    <Select
-                                        value={mode}
-                                        onChange={(e) => handleThemeChange(e.target.value)}
-                                        label="Theme"
-                                    >
-                                        <MenuItem value="light">Light</MenuItem>
-                                        <MenuItem value="dark">Dark</MenuItem>
-                                        <MenuItem value="system">System Default</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
+                                    <MenuItem value="light">Light</MenuItem>
+                                    <MenuItem value="dark">Dark</MenuItem>
+                                    <MenuItem value="system">System Default</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </CardContent>
+                    </Card>
+                </Box>
             </TabPanel>
 
             {/* Notifications Tab */}
             <TabPanel value={tabValue} index={1}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                <Box sx={{ display: "grid", gap: 3 }}>
+                    <Card>
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" fontWeight={600} mb={3}>
@@ -353,65 +354,71 @@ export default function SettingsPage() {
                                 </Box>
                             </CardContent>
                         </Card>
-                    </Grid>
-                </Grid>
+                </Box>
             </TabPanel>
 
             {/* Security Tab */}
             <TabPanel value={tabValue} index={2}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6" fontWeight={600} mb={3}>
-                                    Password
-                                </Typography>
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => setShowPasswordDialog(true)}
+                <Box
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                        gap: 3,
+                    }}
+                >
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" fontWeight={600} mb={3}>
+                                Password
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                onClick={() => setShowPasswordDialog(true)}
+                            >
+                                Change Password
+                            </Button>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" fontWeight={600} mb={3}>
+                                Privacy
+                            </Typography>
+                            <FormControl fullWidth sx={{ mb: 2 }}>
+                                <InputLabel>Profile Visibility</InputLabel>
+                                <Select
+                                    value={profileVisibility}
+                                    onChange={(e) => setProfileVisibility(e.target.value)}
+                                    label="Profile Visibility"
                                 >
-                                    Change Password
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6" fontWeight={600} mb={3}>
-                                    Privacy
-                                </Typography>
-                                <FormControl fullWidth sx={{ mb: 2 }}>
-                                    <InputLabel>Profile Visibility</InputLabel>
-                                    <Select
-                                        value={profileVisibility}
-                                        onChange={(e) => setProfileVisibility(e.target.value)}
-                                        label="Profile Visibility"
-                                    >
-                                        <MenuItem value="public">Public</MenuItem>
-                                        <MenuItem value="private">Private</MenuItem>
-                                        <MenuItem value="friends">Friends Only</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={dataSharing}
-                                            onChange={(e) => setDataSharing(e.target.checked)}
-                                        />
-                                    }
-                                    label="Allow data sharing for analytics"
-                                />
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
+                                    <MenuItem value="public">Public</MenuItem>
+                                    <MenuItem value="private">Private</MenuItem>
+                                    <MenuItem value="friends">Friends Only</MenuItem>
+                                </Select>
+                            </FormControl>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={dataSharing}
+                                        onChange={(e) => setDataSharing(e.target.checked)}
+                                    />
+                                }
+                                label="Allow data sharing for analytics"
+                            />
+                        </CardContent>
+                    </Card>
+                </Box>
             </TabPanel>
 
             {/* Language & Region Tab */}
             <TabPanel value={tabValue} index={3}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
+                <Box
+                    sx={{
+                        display: "grid",
+                        gridTemplateColumns: { xs: "1fr", md: "1fr" },
+                        gap: 3,
+                    }}
+                >
                         <Card>
                             <CardContent>
                                 <Typography variant="h6" fontWeight={600} mb={3}>
@@ -457,8 +464,7 @@ export default function SettingsPage() {
                                 </FormControl>
                             </CardContent>
                         </Card>
-                    </Grid>
-                </Grid>
+                </Box>
             </TabPanel>
 
             <Box mt={3}>
