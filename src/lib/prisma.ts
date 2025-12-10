@@ -142,6 +142,19 @@ export const prisma = {
             );
             return result;
         },
+        delete: async (args: any) => {
+            const db = await getDb();
+            const collection = db.collection(COLLECTIONS.USERS);
+            const where = args.where;
+            let query: any = {};
+            if (where.id) {
+                query._id = toObjectId(where.id);
+            } else {
+                query = where;
+            }
+            const result = await collection.deleteOne(query);
+            return { ...result, id: where.id };
+        },
     },
     patient: {
         findUnique: async (args: any) => {
