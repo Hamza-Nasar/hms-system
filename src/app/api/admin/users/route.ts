@@ -6,8 +6,8 @@ import bcrypt from "bcryptjs";
 export async function GET(req: NextRequest) {
     try {
         const session = await getSessionWithUser(req);
-        const role = (session?.user as any)?.role?.toLowerCase();
-        if (!session || (role !== "admin" && role !== "administrator")) {
+        const userRole = (session?.user as any)?.role?.toLowerCase();
+        if (!session || (userRole !== "admin" && userRole !== "administrator")) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
         }
 
@@ -33,8 +33,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const session = await getSessionWithUser(req);
-        const role = (session?.user as any)?.role?.toLowerCase();
-        if (!session || (role !== "admin" && role !== "administrator")) {
+        const userRole = (session?.user as any)?.role?.toLowerCase();
+        if (!session || (userRole !== "admin" && userRole !== "administrator")) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
         }
 
