@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
                 select: { role: true }
             });
             
-            const hasAdmin = allUsers.some(user => {
+            const hasAdmin = allUsers.some((user: any) => {
                 const role = (user.role || "").toLowerCase();
                 return role === "admin" || role === "administrator";
             });
