@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography, Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Box, Typography, Card, CardContent, CardHeader } from "@mui/material";
 
 interface StatsData {
     totalPatients: number;
@@ -52,32 +52,37 @@ export default function ReportsStats({ stats }: { stats: StatsData }) {
     ];
 
     return (
-        <Grid container spacing={3}>
+        <Box
+            sx={{
+                display: "grid",
+                gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+                gap: 3,
+            }}
+        >
             {statCards.map((stat, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card
-                        sx={{
-                            background: `linear-gradient(135deg, ${stat.color}15 0%, ${stat.color}05 100%)`,
-                            border: `1px solid ${stat.color}20`,
-                            height: "100%",
-                        }}
-                    >
-                        <CardHeader
-                            title={
-                                <Typography variant="h6" fontWeight={600}>
-                                    {stat.title}
-                                </Typography>
-                            }
-                        />
-                        <CardContent>
-                            <Typography variant="h3" fontWeight={700} color={stat.color}>
-                                {stat.value}
+                <Card
+                    key={index}
+                    sx={{
+                        background: `linear-gradient(135deg, ${stat.color}15 0%, ${stat.color}05 100%)`,
+                        border: `1px solid ${stat.color}20`,
+                        height: "100%",
+                    }}
+                >
+                    <CardHeader
+                        title={
+                            <Typography variant="h6" fontWeight={600}>
+                                {stat.title}
                             </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        }
+                    />
+                    <CardContent>
+                        <Typography variant="h3" fontWeight={700} color={stat.color}>
+                            {stat.value}
+                        </Typography>
+                    </CardContent>
+                </Card>
             ))}
-        </Grid>
+        </Box>
     );
 }
 

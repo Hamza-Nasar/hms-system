@@ -6,7 +6,6 @@ import {
     Typography,
     Card,
     CardContent,
-    Grid,
     LinearProgress,
     Chip,
     Table,
@@ -93,140 +92,137 @@ export default function SystemMonitoring() {
                 System Monitoring
             </Typography>
 
-            <Grid container spacing={3}>
-                <Grid item xs={12} md={3}>
-                    <Card>
-                        <CardContent>
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                                <SpeedIcon sx={{ mr: 1, color: "primary.main" }} />
-                                <Typography variant="subtitle2" color="text.secondary">
-                                    CPU Usage
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" fontWeight={700} mb={1}>
-                                {metrics.cpu.toFixed(1)}%
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "repeat(4, 1fr)" },
+                    gap: 3,
+                    mb: 3,
+                }}
+            >
+                <Card>
+                    <CardContent>
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <SpeedIcon sx={{ mr: 1, color: "primary.main" }} />
+                            <Typography variant="subtitle2" color="text.secondary">
+                                CPU Usage
                             </Typography>
-                            <LinearProgress
-                                variant="determinate"
-                                value={metrics.cpu}
-                                color={getColor(metrics.cpu) as any}
-                                sx={{ height: 8, borderRadius: 4 }}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </Box>
+                        <Typography variant="h4" fontWeight={700} mb={1}>
+                            {metrics.cpu.toFixed(1)}%
+                        </Typography>
+                        <LinearProgress
+                            variant="determinate"
+                            value={metrics.cpu}
+                            color={getColor(metrics.cpu) as any}
+                            sx={{ height: 8, borderRadius: 4 }}
+                        />
+                    </CardContent>
+                </Card>
 
-                <Grid item xs={12} md={3}>
-                    <Card>
-                        <CardContent>
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                                <MemoryIcon sx={{ mr: 1, color: "primary.main" }} />
-                                <Typography variant="subtitle2" color="text.secondary">
-                                    Memory Usage
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" fontWeight={700} mb={1}>
-                                {metrics.memory.toFixed(1)}%
+                <Card>
+                    <CardContent>
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <MemoryIcon sx={{ mr: 1, color: "primary.main" }} />
+                            <Typography variant="subtitle2" color="text.secondary">
+                                Memory Usage
                             </Typography>
-                            <LinearProgress
-                                variant="determinate"
-                                value={metrics.memory}
-                                color={getColor(metrics.memory) as any}
-                                sx={{ height: 8, borderRadius: 4 }}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </Box>
+                        <Typography variant="h4" fontWeight={700} mb={1}>
+                            {metrics.memory.toFixed(1)}%
+                        </Typography>
+                        <LinearProgress
+                            variant="determinate"
+                            value={metrics.memory}
+                            color={getColor(metrics.memory) as any}
+                            sx={{ height: 8, borderRadius: 4 }}
+                        />
+                    </CardContent>
+                </Card>
 
-                <Grid item xs={12} md={3}>
-                    <Card>
-                        <CardContent>
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                                <StorageIcon sx={{ mr: 1, color: "primary.main" }} />
-                                <Typography variant="subtitle2" color="text.secondary">
-                                    Storage Usage
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" fontWeight={700} mb={1}>
-                                {metrics.storage.toFixed(1)}%
+                <Card>
+                    <CardContent>
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <StorageIcon sx={{ mr: 1, color: "primary.main" }} />
+                            <Typography variant="subtitle2" color="text.secondary">
+                                Storage Usage
                             </Typography>
-                            <LinearProgress
-                                variant="determinate"
-                                value={metrics.storage}
-                                color={getColor(metrics.storage) as any}
-                                sx={{ height: 8, borderRadius: 4 }}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </Box>
+                        <Typography variant="h4" fontWeight={700} mb={1}>
+                            {metrics.storage.toFixed(1)}%
+                        </Typography>
+                        <LinearProgress
+                            variant="determinate"
+                            value={metrics.storage}
+                            color={getColor(metrics.storage) as any}
+                            sx={{ height: 8, borderRadius: 4 }}
+                        />
+                    </CardContent>
+                </Card>
 
-                <Grid item xs={12} md={3}>
-                    <Card>
-                        <CardContent>
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                                <PeopleIcon sx={{ mr: 1, color: "primary.main" }} />
-                                <Typography variant="subtitle2" color="text.secondary">
-                                    Active Connections
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" fontWeight={700}>
-                                {metrics.activeConnections}
+                <Card>
+                    <CardContent>
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                            <PeopleIcon sx={{ mr: 1, color: "primary.main" }} />
+                            <Typography variant="subtitle2" color="text.secondary">
+                                Active Connections
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                {metrics.requestsPerMinute} req/min
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </Box>
+                        <Typography variant="h4" fontWeight={700}>
+                            {metrics.activeConnections}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            {metrics.requestsPerMinute} req/min
+                        </Typography>
+                    </CardContent>
+                </Card>
+            </Box>
 
-                <Grid item xs={12}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" fontWeight={600} mb={2}>
-                                Recent System Activity
-                            </Typography>
-                            <TableContainer>
-                                <Table size="small">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Time</TableCell>
-                                            <TableCell>Event</TableCell>
-                                            <TableCell>User</TableCell>
-                                            <TableCell>Status</TableCell>
+            <Card>
+                <CardContent>
+                    <Typography variant="h6" fontWeight={600} mb={2}>
+                        Recent System Activity
+                    </Typography>
+                    <TableContainer>
+                        <Table size="small">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Time</TableCell>
+                                    <TableCell>Event</TableCell>
+                                    <TableCell>User</TableCell>
+                                    <TableCell>Status</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {recentActivity.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={4} align="center">
+                                            No recent activity
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    recentActivity.map((activity, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                {new Date(activity.timestamp).toLocaleTimeString()}
+                                            </TableCell>
+                                            <TableCell>{activity.event}</TableCell>
+                                            <TableCell>{activity.user || "System"}</TableCell>
+                                            <TableCell>
+                                                <Chip
+                                                    label={activity.status}
+                                                    size="small"
+                                                    color={activity.status === "success" ? "success" : "error"}
+                                                />
+                                            </TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {recentActivity.length === 0 ? (
-                                            <TableRow>
-                                                <TableCell colSpan={4} align="center">
-                                                    No recent activity
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : (
-                                            recentActivity.map((activity, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>
-                                                        {new Date(activity.timestamp).toLocaleTimeString()}
-                                                    </TableCell>
-                                                    <TableCell>{activity.event}</TableCell>
-                                                    <TableCell>{activity.user || "System"}</TableCell>
-                                                    <TableCell>
-                                                        <Chip
-                                                            label={activity.status}
-                                                            size="small"
-                                                            color={activity.status === "success" ? "success" : "error"}
-                                                        />
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </CardContent>
+            </Card>
         </Box>
     );
 }
