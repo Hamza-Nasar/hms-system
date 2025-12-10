@@ -781,6 +781,71 @@ export const prisma = {
             await collection.insertOne(data);
             return { ...data, id: data._id.toString() };
         },
+        update: async (args: any) => {
+            const db = await getDb();
+            const collection = db.collection(COLLECTIONS.PRESCRIPTIONS);
+            const where = args.where;
+            let query: any = {};
+            if (where.id) {
+                query._id = toObjectId(where.id);
+            } else {
+                query = where;
+            }
+            const update = { ...args.data, updatedAt: new Date() };
+            const result = await collection.findOneAndUpdate(
+                query,
+                { $set: update },
+                { returnDocument: 'after' }
+            );
+            if (!result) return null;
+            
+            // Handle includes if provided
+            if (args.include) {
+                if (args.include.patient) {
+                    const patientCollection = db.collection(COLLECTIONS.PATIENTS);
+                    const patient = await patientCollection.findOne({ _id: toObjectId(result.patientId) });
+                    if (patient) {
+                        if (args.include.patient.select) {
+                            const selected: any = {};
+                            Object.keys(args.include.patient.select).forEach(key => {
+                                if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                    selected[key] = patient[key];
+                                }
+                            });
+                            result.patient = selected;
+                        } else {
+                            result.patient = { ...patient, id: patient._id.toString() };
+                        }
+                    }
+                }
+                if (args.include.doctor) {
+                    const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
+                    const doctor = await doctorCollection.findOne({ _id: toObjectId(result.doctorId) });
+                    if (doctor) {
+                        result.doctor = { ...doctor, id: doctor._id.toString() };
+                        if (args.include.doctor.user) {
+                            const userCollection = db.collection(COLLECTIONS.USERS);
+                            const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
+                            if (user) {
+                                if (args.include.doctor.user.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.doctor.user.select).forEach(key => {
+                                        if (args.include.doctor.user.select[key] && user[key] !== undefined) {
+                                            selected[key] = user[key];
+                                        }
+                                    });
+                                    result.doctor.user = selected;
+                                } else {
+                                    result.doctor.user = { ...user, id: user._id.toString() };
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            return { ...result, id: result._id.toString() };
+        },
     },
     labTest: {
         findMany: async (args?: any) => {
