@@ -1,0 +1,185 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String   @unique
+  password String?  // Optional for OAuth users
+  role     String   @default("PATIENT")
+  phone    String?
+  avatar   String?
+  Patient  Patient?
+  Doctor   Doctor?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Patient {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  name     String
+  age      Int
+  disease  String?
+  phone    String?
+  address  String?
+  gender   String?
+  bloodGroup String?
+  emergencyContact String?
+  insuranceNumber String?
+
+  appointments Appointment[]
+  bills        Bill[]
+  medicalRecords MedicalRecord[]
+  prescriptions Prescription[]
+  labTests     LabTest[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Doctor {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String        @unique
+  user         User          @relation(fields: [userId], references: [id])
+
+  specialization String?
+  phone          String?
+  department     String?
+  experience     Int?
+  qualification  String?
+  consultationFee Float?
+
+  appointments Appointment[]
+  availability  Availability[]
+  prescriptions Prescription[]
+  medicalRecords MedicalRecord[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Appointment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String
+  doctorId  String
+  startsAt  DateTime
+  endsAt    DateTime?
+  status    String   @default("PENDING")
+  notes     String?
+  type      String?  @default("CONSULTATION")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model Bill {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String
+  amount    Float
+  status    String   @default("PENDING")
+  description String?
+  items     String?
+  paidAt    DateTime?
+  paymentMethod String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+model Inventory {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  quantity    Int
+  unit        String   @default("pcs")
+  minStock    Int      @default(10)
+  category    String?
+  description String?
+  price       Float?
+  supplier    String?
+  expiryDate  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Availability {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  doctorId  String
+  startsAt  DateTime
+  endsAt    DateTime
+  isAvailable Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doctor Doctor @relation(fields: [doctorId], references: [id])
+}
+
+model MedicalRecord {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String
+  doctorId  String
+  date      DateTime @default(now())
+  diagnosis String
+  symptoms  String?
+  treatment String?
+  notes     String?
+  attachments String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model Prescription {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String
+  doctorId  String
+  date      DateTime @default(now())
+  medications String
+  dosage    String?
+  duration  String?
+  instructions String?
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model LabTest {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  patientId String
+  testName  String
+  testType  String?
+  date      DateTime @default(now())
+  results   String?
+  status    String   @default("PENDING")
+  doctorNotes String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  title     String
+  message   String
+  type      String   @default("INFO")
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
