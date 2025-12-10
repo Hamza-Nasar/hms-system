@@ -29,7 +29,11 @@ export async function PATCH(
                 patient: { select: { name: true, userId: true } },
                 doctor: { select: { userId: true, user: { select: { name: true } } } },
             },
-        });
+        }) as any;
+
+        if (!prescription) {
+            return NextResponse.json({ error: "Prescription not found" }, { status: 404 });
+        }
 
         // Emit real-time updates
         try {
