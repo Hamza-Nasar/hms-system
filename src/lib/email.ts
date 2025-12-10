@@ -4,7 +4,7 @@
 export interface EmailParams {
     to: string;
     subject: string;
-    html: string;
+    html?: string;
     text?: string;
     toName?: string;
     resetLink?: string;
