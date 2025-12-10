@@ -17,7 +17,6 @@ import {
     CircularProgress,
     Paper,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 import AddIcon from "@mui/icons-material/Add";
@@ -166,52 +165,56 @@ export default function DoctorSchedulePage() {
                 </Button>
             </Box>
 
-            <Grid container spacing={3}>
-                <Grid size={{ xs: 12, md: 6 }}>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" fontWeight={600} gutterBottom>
-                                Upcoming Availability
-                            </Typography>
-                            {availability.length === 0 ? (
-                                <Alert severity="info" sx={{ mt: 2 }}>
-                                    No availability set. Click "Set Availability" to add your schedule.
-                                </Alert>
-                            ) : (
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell><strong>Start Time</strong></TableCell>
-                                            <TableCell><strong>End Time</strong></TableCell>
-                                            <TableCell><strong>Status</strong></TableCell>
+            <Box
+                sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                    gap: 3,
+                }}
+            >
+                <Card>
+                    <CardContent>
+                        <Typography variant="h6" fontWeight={600} gutterBottom>
+                            Upcoming Availability
+                        </Typography>
+                        {availability.length === 0 ? (
+                            <Alert severity="info" sx={{ mt: 2 }}>
+                                No availability set. Click "Set Availability" to add your schedule.
+                            </Alert>
+                        ) : (
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell><strong>Start Time</strong></TableCell>
+                                        <TableCell><strong>End Time</strong></TableCell>
+                                        <TableCell><strong>Status</strong></TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {availability.map((avail) => (
+                                        <TableRow key={avail.id} hover>
+                                            <TableCell>
+                                                {format(new Date(avail.startsAt), "MMM dd, yyyy HH:mm")}
+                                            </TableCell>
+                                            <TableCell>
+                                                {format(new Date(avail.endsAt), "MMM dd, yyyy HH:mm")}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Chip
+                                                    label={avail.isAvailable ? "Available" : "Unavailable"}
+                                                    color={avail.isAvailable ? "success" : "default"}
+                                                    size="small"
+                                                />
+                                            </TableCell>
                                         </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {availability.map((avail) => (
-                                            <TableRow key={avail.id} hover>
-                                                <TableCell>
-                                                    {format(new Date(avail.startsAt), "MMM dd, yyyy HH:mm")}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {format(new Date(avail.endsAt), "MMM dd, yyyy HH:mm")}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Chip
-                                                        label={avail.isAvailable ? "Available" : "Unavailable"}
-                                                        color={avail.isAvailable ? "success" : "default"}
-                                                        size="small"
-                                                    />
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            )}
-                        </CardContent>
-                    </Card>
-                </Grid>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        )}
+                    </CardContent>
+                </Card>
 
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Card>
                     <Card>
                         <CardContent>
                             <Typography variant="h6" fontWeight={600} gutterBottom>
@@ -257,8 +260,7 @@ export default function DoctorSchedulePage() {
                             )}
                         </CardContent>
                     </Card>
-                </Grid>
-            </Grid>
+            </Box>
 
             {/* Combined Schedule View */}
             <Card sx={{ mt: 3 }}>
