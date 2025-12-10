@@ -253,8 +253,7 @@ export default function SettingsPage() {
             <TabPanel value={tabValue} index={1}>
                 <Box sx={{ display: "grid", gap: 3 }}>
                     <Card>
-                        <Card>
-                            <CardContent>
+                        <CardContent>
                                 <Typography variant="h6" fontWeight={600} mb={3}>
                                     Notification Preferences
                                 </Typography>
@@ -353,7 +352,7 @@ export default function SettingsPage() {
                                     />
                                 </Box>
                             </CardContent>
-                        </Card>
+                    </Card>
                 </Box>
             </TabPanel>
 
