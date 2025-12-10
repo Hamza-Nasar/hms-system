@@ -212,7 +212,7 @@ export default async function DashboardPage() {
                 >
                     <div className="space-y-3">
                         {isPatient &&
-                            user?.Patient?.appointments?.map((apt) => (
+                            user?.Patient?.appointments?.map((apt: any) => (
                                 <div
                                     key={apt.id}
                                     className="flex items-center justify-between p-4 rounded-lg border bg-white dark:bg-slate-900 hover:shadow-sm transition-all duration-200 hover-lift"
@@ -247,7 +247,7 @@ export default async function DashboardPage() {
                                 </div>
                             ))}
                         {isDoctor &&
-                            user?.Doctor?.appointments?.map((apt) => (
+                            user?.Doctor?.appointments?.map((apt: any) => (
                                 <div
                                     key={apt.id}
                                     className="flex items-center justify-between p-4 rounded-lg border bg-white dark:bg-slate-900 hover:shadow-sm transition-all duration-200 hover-lift"
