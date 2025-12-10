@@ -225,7 +225,7 @@ export default function MedicalRecordsPage() {
                     <Button 
                         onClick={async () => {
                             if (!formData.patientId || !formData.diagnosis) {
-                                toast({ title: "Error", description: "Patient and Diagnosis are required", variant: "destructive" });
+                                toast({ title: "Error: Patient and Diagnosis are required", variant: "destructive" });
                                 return;
                             }
                             try {
@@ -243,7 +243,7 @@ export default function MedicalRecordsPage() {
                                     body: JSON.stringify(payload),
                                 });
                                 if (res.ok) {
-                                    toast({ title: "Success", description: "Medical record created successfully" });
+                                    toast({ title: "Success: Medical record created successfully" });
                                     setOpenDialog(false);
                                     setFormData({
                                         patientId: "",
@@ -255,10 +255,10 @@ export default function MedicalRecordsPage() {
                                     fetchRecords();
                                 } else {
                                     const error = await res.json();
-                                    toast({ title: "Error", description: error.error || "Failed to create medical record", variant: "destructive" });
+                                    toast({ title: error.error || "Failed to create medical record", variant: "destructive" });
                                 }
                             } catch (err: any) {
-                                toast({ title: "Error", description: err.message || "Failed to create medical record", variant: "destructive" });
+                                toast({ title: err.message || "Failed to create medical record", variant: "destructive" });
                             }
                         }}
                         variant="contained"

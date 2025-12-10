@@ -54,8 +54,7 @@ export default function RegisterPage() {
                     const errorMsg = "Database configuration required. MongoDB must be set up as a replica set. Please contact your administrator or check MONGODB_REPLICA_SET_FIX.md for setup instructions.";
                     setError(errorMsg);
                     toast({ 
-                        title: "Database Configuration Required", 
-                        description: "MongoDB replica set setup needed",
+                        title: "Database Configuration Required - MongoDB replica set setup needed",
                         variant: "destructive" 
                     });
                     setLoading(false);
@@ -68,8 +67,7 @@ export default function RegisterPage() {
             const isAdmin = data.user?.role === "admin" || data.user?.role === "ADMIN";
             if (isAdmin) {
                 toast({ 
-                    title: "Admin Account Created!", 
-                    description: "You are the first user and have been granted admin access."
+                    title: "Admin Account Created! You are the first user and have been granted admin access."
                 });
             } else {
                 toast({ title: "Registration successful! Please login." });

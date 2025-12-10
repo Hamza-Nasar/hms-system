@@ -264,7 +264,7 @@ export default function PrescriptionsPage() {
                     <Button 
                         onClick={async () => {
                             if (!formData.patientId || !formData.medications) {
-                                toast({ title: "Error", description: "Patient and Medications are required", variant: "destructive" });
+                                toast({ title: "Error: Patient and Medications are required", variant: "destructive" });
                                 return;
                             }
                             try {
@@ -274,7 +274,7 @@ export default function PrescriptionsPage() {
                                     body: JSON.stringify(formData),
                                 });
                                 if (res.ok) {
-                                    toast({ title: "Success", description: "Prescription created successfully" });
+                                    toast({ title: "Success: Prescription created successfully" });
                                     setOpenDialog(false);
                                     setFormData({
                                         patientId: "",
@@ -287,10 +287,10 @@ export default function PrescriptionsPage() {
                                     fetchPrescriptions();
                                 } else {
                                     const error = await res.json();
-                                    toast({ title: "Error", description: error.error || "Failed to create prescription", variant: "destructive" });
+                                    toast({ title: error.error || "Failed to create prescription", variant: "destructive" });
                                 }
                             } catch (err: any) {
-                                toast({ title: "Error", description: err.message || "Failed to create prescription", variant: "destructive" });
+                                toast({ title: err.message || "Failed to create prescription", variant: "destructive" });
                             }
                         }}
                         variant="contained"

@@ -265,7 +265,7 @@ export default function LabTestsPage() {
                     <Button 
                         onClick={async () => {
                             if (!formData.patientId || !formData.testName) {
-                                toast({ title: "Error", description: "Patient and Test Name are required", variant: "destructive" });
+                                toast({ title: "Error: Patient and Test Name are required", variant: "destructive" });
                                 return;
                             }
                             try {
@@ -275,7 +275,7 @@ export default function LabTestsPage() {
                                     body: JSON.stringify(formData),
                                 });
                                 if (res.ok) {
-                                    toast({ title: "Success", description: "Lab test created successfully" });
+                                    toast({ title: "Success: Lab test created successfully" });
                                     setOpenDialog(false);
                                     setFormData({
                                         patientId: "",
@@ -288,10 +288,10 @@ export default function LabTestsPage() {
                                     fetchLabTests();
                                 } else {
                                     const error = await res.json();
-                                    toast({ title: "Error", description: error.error || "Failed to create lab test", variant: "destructive" });
+                                    toast({ title: error.error || "Failed to create lab test", variant: "destructive" });
                                 }
                             } catch (err: any) {
-                                toast({ title: "Error", description: err.message || "Failed to create lab test", variant: "destructive" });
+                                toast({ title: err.message || "Failed to create lab test", variant: "destructive" });
                             }
                         }}
                         variant="contained"
