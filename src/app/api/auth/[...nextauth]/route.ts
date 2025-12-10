@@ -319,9 +319,6 @@ export const authOptions: NextAuthOptions = {
                 console.log("New OAuth user created:", user.email);
             }
         },
-        async error({ error }) {
-            console.error("NextAuth error:", error);
-        },
     },
 };
 
