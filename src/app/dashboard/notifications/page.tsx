@@ -332,7 +332,7 @@ export default function NotificationsPage() {
                                                 </Typography>
                                                 <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
                                                     {format(
-                                                        new Date(notification.createdAt || notification.timestamp || Date.now()),
+                                                        new Date(notification.createdAt || Date.now()),
                                                         "MMM dd, yyyy HH:mm"
                                                     )}
                                                 </Typography>
