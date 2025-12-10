@@ -61,15 +61,26 @@ export default function NotificationsPage() {
         // Merge real-time notifications
         if (realtimeNotifications.length > 0) {
             setNotifications((prev) => {
-                const merged = [...realtimeNotifications, ...prev];
+                // Normalize real-time notifications to match local Notification type
+                const normalizedRealtime = realtimeNotifications.map((notif) => ({
+                    id: notif.id,
+                    title: notif.title,
+                    message: notif.message,
+                    type: notif.type,
+                    read: notif.read || false,
+                    link: notif.link,
+                    createdAt: notif.timestamp || new Date().toISOString(),
+                }));
+                
+                const merged = [...normalizedRealtime, ...prev];
                 const unique = merged.filter(
                     (notif, index, self) =>
                         index === self.findIndex((n) => n.id === notif.id)
                 );
                 return unique.sort(
                     (a, b) =>
-                        new Date(b.createdAt || b.timestamp || 0).getTime() -
-                        new Date(a.createdAt || a.timestamp || 0).getTime()
+                        new Date(b.createdAt || 0).getTime() -
+                        new Date(a.createdAt || 0).getTime()
                 );
             });
         }
