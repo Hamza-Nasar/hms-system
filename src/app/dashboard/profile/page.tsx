@@ -92,11 +92,10 @@ export default function ProfilePage() {
                 </Card>
 
                 <Card>
-                    <Card>
-                        <CardContent>
-                            <Typography variant="h6" fontWeight={600} mb={3}>
-                                Personal Information
-                            </Typography>
+                    <CardContent>
+                        <Typography variant="h6" fontWeight={600} mb={3}>
+                            Personal Information
+                        </Typography>
 
                             <form onSubmit={handleSubmit}>
                                 <TextField
