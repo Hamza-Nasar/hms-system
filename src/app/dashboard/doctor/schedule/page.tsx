@@ -15,9 +15,9 @@ import {
     Button,
     Alert,
     CircularProgress,
-    Grid,
     Paper,
 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 import { useSession } from "next-auth/react";
 import { format } from "date-fns";
 import AddIcon from "@mui/icons-material/Add";
