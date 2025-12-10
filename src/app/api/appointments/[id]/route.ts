@@ -34,9 +34,15 @@ export async function PATCH(
             return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
         }
 
-        const appointment = await prisma.appointment.update({
+        // Update appointment
+        await prisma.appointment.update({
             where: { id },
             data: { status },
+        });
+
+        // Fetch updated appointment with includes
+        const appointment = await prisma.appointment.findUnique({
+            where: { id },
             include: {
                 patient: { select: { name: true, userId: true } },
                 doctor: { select: { userId: true, user: { select: { name: true } } } },
