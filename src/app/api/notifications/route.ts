@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
         const limit = parseInt(searchParams.get("limit") || "50");
         const unreadOnly = searchParams.get("unread") === "true";
 
-        let notifications = [];
+        let notifications: any[] = [];
         try {
             notifications = await prisma.notification.findMany({
             where: {

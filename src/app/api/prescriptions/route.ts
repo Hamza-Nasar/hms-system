@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
         const isAdmin = role === "admin" || role === "ADMIN";
         const isDoctor = role === "DOCTOR";
 
-        let prescriptions = [];
+        let prescriptions: any[] = [];
         if (isAdmin || isDoctor) {
             prescriptions = await prisma.prescription.findMany({
                 include: {

@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
         }
 
-        let bills = [];
+        let bills: any[] = [];
         try {
             bills = await prisma.bill.findMany({
             orderBy: { createdAt: "desc" },
