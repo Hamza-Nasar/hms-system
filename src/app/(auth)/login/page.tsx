@@ -60,8 +60,7 @@ export default function LoginPage() {
             } else if (errorParam === "Configuration") {
                 setError("Authentication service is not properly configured. Please contact the administrator.");
                 toast({ 
-                    title: "Configuration Error", 
-                    description: "NEXTAUTH_SECRET or NEXTAUTH_URL may be missing. Please check environment variables.",
+                    title: "Configuration Error: NEXTAUTH_SECRET or NEXTAUTH_URL may be missing. Please check environment variables.",
                     variant: "destructive" 
                 });
             } else {
