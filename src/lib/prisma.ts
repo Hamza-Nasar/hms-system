@@ -418,6 +418,7 @@ export const prisma = {
             // Handle includes
             if (args.include) {
                 appointment = await handleAppointmentIncludes(db, appointment, args.include);
+                if (!appointment) return null;
             }
             
             return { ...appointment, id: appointment._id.toString() };
