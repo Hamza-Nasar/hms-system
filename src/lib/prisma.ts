@@ -177,18 +177,21 @@ export const prisma = {
             if (args.include) {
                 if (args.include.user) {
                     const userCollection = db.collection(COLLECTIONS.USERS);
-                    const user = await userCollection.findOne({ _id: toObjectId(patient.userId) });
-                    if (user) {
-                        if (args.include.user.select) {
-                            const selected: any = {};
-                            Object.keys(args.include.user.select).forEach(key => {
-                                if (args.include.user.select[key] && user[key] !== undefined) {
-                                    selected[key] = user[key];
-                                }
-                            });
-                            patient.user = selected;
-                        } else {
-                            patient.user = { ...user, id: user._id.toString() };
+                    const userId = toObjectId(patient.userId);
+                    if (userId) {
+                        const user = await userCollection.findOne({ _id: userId });
+                        if (user) {
+                            if (args.include.user.select) {
+                                const selected: any = {};
+                                Object.keys(args.include.user.select).forEach(key => {
+                                    if (args.include.user.select[key] && user[key] !== undefined) {
+                                        selected[key] = user[key];
+                                    }
+                                });
+                                patient.user = selected;
+                            } else {
+                                patient.user = { ...user, id: user._id.toString() };
+                            }
                         }
                     }
                 }
@@ -221,9 +224,12 @@ export const prisma = {
                 patients = await Promise.all(patients.map(async (patient: any) => {
                     if (args.include.user) {
                         const userCollection = db.collection(COLLECTIONS.USERS);
-                        const user = await userCollection.findOne({ _id: toObjectId(patient.userId) });
-                        if (user) {
-                            patient.user = { ...user, id: user._id.toString() };
+                        const userId = toObjectId(patient.userId);
+                        if (userId) {
+                            const user = await userCollection.findOne({ _id: userId });
+                            if (user) {
+                                patient.user = { ...user, id: user._id.toString() };
+                            }
                         }
                     }
                     return { ...patient, id: patient._id.toString() };
@@ -251,18 +257,21 @@ export const prisma = {
             if (args.include) {
                 if (args.include.user) {
                     const userCollection = db.collection(COLLECTIONS.USERS);
-                    const user = await userCollection.findOne({ _id: toObjectId(data.userId) });
-                    if (user) {
-                        if (args.include.user.select) {
-                            const selected: any = {};
-                            Object.keys(args.include.user.select).forEach(key => {
-                                if (args.include.user.select[key] && user[key] !== undefined) {
-                                    selected[key] = user[key];
-                                }
-                            });
-                            result.user = selected;
-                        } else {
-                            result.user = { ...user, id: user._id.toString() };
+                    const userId = toObjectId(data.userId);
+                    if (userId) {
+                        const user = await userCollection.findOne({ _id: userId });
+                        if (user) {
+                            if (args.include.user.select) {
+                                const selected: any = {};
+                                Object.keys(args.include.user.select).forEach(key => {
+                                    if (args.include.user.select[key] && user[key] !== undefined) {
+                                        selected[key] = user[key];
+                                    }
+                                });
+                                result.user = selected;
+                            } else {
+                                result.user = { ...user, id: user._id.toString() };
+                            }
                         }
                     }
                 }
@@ -300,18 +309,21 @@ export const prisma = {
             if (args.include) {
                 if (args.include.user) {
                     const userCollection = db.collection(COLLECTIONS.USERS);
-                    const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                    if (user) {
-                        if (args.include.user.select) {
-                            const selected: any = {};
-                            Object.keys(args.include.user.select).forEach(key => {
-                                if (args.include.user.select[key] && user[key] !== undefined) {
-                                    selected[key] = user[key];
-                                }
-                            });
-                            doctor.user = selected;
-                        } else {
-                            doctor.user = { ...user, id: user._id.toString() };
+                    const userId = toObjectId(doctor.userId);
+                    if (userId) {
+                        const user = await userCollection.findOne({ _id: userId });
+                        if (user) {
+                            if (args.include.user.select) {
+                                const selected: any = {};
+                                Object.keys(args.include.user.select).forEach(key => {
+                                    if (args.include.user.select[key] && user[key] !== undefined) {
+                                        selected[key] = user[key];
+                                    }
+                                });
+                                doctor.user = selected;
+                            } else {
+                                doctor.user = { ...user, id: user._id.toString() };
+                            }
                         }
                     }
                 }
@@ -340,18 +352,21 @@ export const prisma = {
                 doctors = await Promise.all(doctors.map(async (doctor: any) => {
                     if (args.include.user) {
                         const userCollection = db.collection(COLLECTIONS.USERS);
-                        const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                        if (user) {
-                            if (args.include.user.select) {
-                                const selected: any = {};
-                                Object.keys(args.include.user.select).forEach(key => {
-                                    if (args.include.user.select[key] && user[key] !== undefined) {
-                                        selected[key] = user[key];
-                                    }
-                                });
-                                doctor.user = selected;
-                            } else {
-                                doctor.user = { ...user, id: user._id.toString() };
+                        const userId = toObjectId(doctor.userId);
+                        if (userId) {
+                            const user = await userCollection.findOne({ _id: userId });
+                            if (user) {
+                                if (args.include.user.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.user.select).forEach(key => {
+                                        if (args.include.user.select[key] && user[key] !== undefined) {
+                                            selected[key] = user[key];
+                                        }
+                                    });
+                                    doctor.user = selected;
+                                } else {
+                                    doctor.user = { ...user, id: user._id.toString() };
+                                }
                             }
                         }
                     }
@@ -507,18 +522,21 @@ export const prisma = {
                 bills = await Promise.all(bills.map(async (bill: any) => {
                     if (args.include.patient) {
                         const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-                        const patient = await patientCollection.findOne({ _id: toObjectId(bill.patientId) });
-                        if (patient) {
-                            if (args.include.patient.select) {
-                                const selected: any = {};
-                                Object.keys(args.include.patient.select).forEach(key => {
-                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                        selected[key] = patient[key];
-                                    }
-                                });
-                                bill.patient = selected;
-                            } else {
-                                bill.patient = { ...patient, id: patient._id.toString() };
+                        const patientId = toObjectId(bill.patientId);
+                        if (patientId) {
+                            const patient = await patientCollection.findOne({ _id: patientId });
+                            if (patient) {
+                                if (args.include.patient.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.patient.select).forEach(key => {
+                                        if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                            selected[key] = patient[key];
+                                        }
+                                    });
+                                    bill.patient = selected;
+                                } else {
+                                    bill.patient = { ...patient, id: patient._id.toString() };
+                                }
                             }
                         }
                     }
@@ -634,40 +652,49 @@ export const prisma = {
                 records = await Promise.all(records.map(async (record: any) => {
                     if (args.include.patient) {
                         const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-                        const patient = await patientCollection.findOne({ _id: toObjectId(record.patientId) });
-                        if (patient) {
-                            if (args.include.patient.select) {
-                                const selected: any = {};
-                                Object.keys(args.include.patient.select).forEach(key => {
-                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                        selected[key] = patient[key];
-                                    }
-                                });
-                                record.patient = selected;
-                            } else {
-                                record.patient = { ...patient, id: patient._id.toString() };
+                        const patientId = toObjectId(record.patientId);
+                        if (patientId) {
+                            const patient = await patientCollection.findOne({ _id: patientId });
+                            if (patient) {
+                                if (args.include.patient.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.patient.select).forEach(key => {
+                                        if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                            selected[key] = patient[key];
+                                        }
+                                    });
+                                    record.patient = selected;
+                                } else {
+                                    record.patient = { ...patient, id: patient._id.toString() };
+                                }
                             }
                         }
                     }
                     if (args.include.doctor) {
                         const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
-                        const doctor = await doctorCollection.findOne({ _id: toObjectId(record.doctorId) });
-                        if (doctor) {
-                            record.doctor = { ...doctor, id: doctor._id.toString() };
-                            if (args.include.doctor.user) {
-                                const userCollection = db.collection(COLLECTIONS.USERS);
-                                const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                                if (user) {
-                                    if (args.include.doctor.user.select) {
-                                        const selected: any = {};
-                                        Object.keys(args.include.doctor.user.select).forEach(key => {
-                                            if (args.include.doctor.user.select[key] && user[key] !== undefined) {
-                                                selected[key] = user[key];
+                        const doctorId = toObjectId(record.doctorId);
+                        if (doctorId) {
+                            const doctor = await doctorCollection.findOne({ _id: doctorId });
+                            if (doctor) {
+                                record.doctor = { ...doctor, id: doctor._id.toString() };
+                                if (args.include.doctor.user) {
+                                    const userCollection = db.collection(COLLECTIONS.USERS);
+                                    const userId = toObjectId(doctor.userId);
+                                    if (userId) {
+                                        const user = await userCollection.findOne({ _id: userId });
+                                        if (user) {
+                                            if (args.include.doctor.user.select) {
+                                                const selected: any = {};
+                                                Object.keys(args.include.doctor.user.select).forEach(key => {
+                                                    if (args.include.doctor.user.select[key] && user[key] !== undefined) {
+                                                        selected[key] = user[key];
+                                                    }
+                                                });
+                                                record.doctor.user = selected;
+                                            } else {
+                                                record.doctor.user = { ...user, id: user._id.toString() };
                                             }
-                                        });
-                                        record.doctor.user = selected;
-                                    } else {
-                                        record.doctor.user = { ...user, id: user._id.toString() };
+                                        }
                                     }
                                 }
                             }
@@ -721,40 +748,49 @@ export const prisma = {
                 prescriptions = await Promise.all(prescriptions.map(async (prescription: any) => {
                     if (args.include.patient) {
                         const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-                        const patient = await patientCollection.findOne({ _id: toObjectId(prescription.patientId) });
-                        if (patient) {
-                            if (args.include.patient.select) {
-                                const selected: any = {};
-                                Object.keys(args.include.patient.select).forEach(key => {
-                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                        selected[key] = patient[key];
-                                    }
-                                });
-                                prescription.patient = selected;
-                            } else {
-                                prescription.patient = { ...patient, id: patient._id.toString() };
+                        const patientId = toObjectId(prescription.patientId);
+                        if (patientId) {
+                            const patient = await patientCollection.findOne({ _id: patientId });
+                            if (patient) {
+                                if (args.include.patient.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.patient.select).forEach(key => {
+                                        if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                            selected[key] = patient[key];
+                                        }
+                                    });
+                                    prescription.patient = selected;
+                                } else {
+                                    prescription.patient = { ...patient, id: patient._id.toString() };
+                                }
                             }
                         }
                     }
                     if (args.include.doctor) {
                         const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
-                        const doctor = await doctorCollection.findOne({ _id: toObjectId(prescription.doctorId) });
-                        if (doctor) {
-                            prescription.doctor = { ...doctor, id: doctor._id.toString() };
-                            if (args.include.doctor.user) {
-                                const userCollection = db.collection(COLLECTIONS.USERS);
-                                const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                                if (user) {
-                                    if (args.include.doctor.user.select) {
-                                        const selected: any = {};
-                                        Object.keys(args.include.doctor.user.select).forEach(key => {
-                                            if (args.include.doctor.user.select[key] && user[key] !== undefined) {
-                                                selected[key] = user[key];
+                        const doctorId = toObjectId(prescription.doctorId);
+                        if (doctorId) {
+                            const doctor = await doctorCollection.findOne({ _id: doctorId });
+                            if (doctor) {
+                                prescription.doctor = { ...doctor, id: doctor._id.toString() };
+                                if (args.include.doctor.user) {
+                                    const userCollection = db.collection(COLLECTIONS.USERS);
+                                    const userId = toObjectId(doctor.userId);
+                                    if (userId) {
+                                        const user = await userCollection.findOne({ _id: userId });
+                                        if (user) {
+                                            if (args.include.doctor.user.select) {
+                                                const selected: any = {};
+                                                Object.keys(args.include.doctor.user.select).forEach(key => {
+                                                    if (args.include.doctor.user.select[key] && user[key] !== undefined) {
+                                                        selected[key] = user[key];
+                                                    }
+                                                });
+                                                prescription.doctor.user = selected;
+                                            } else {
+                                                prescription.doctor.user = { ...user, id: user._id.toString() };
                                             }
-                                        });
-                                        prescription.doctor.user = selected;
-                                    } else {
-                                        prescription.doctor.user = { ...user, id: user._id.toString() };
+                                        }
                                     }
                                 }
                             }
@@ -803,40 +839,49 @@ export const prisma = {
             if (args.include) {
                 if (args.include.patient) {
                     const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-                    const patient = await patientCollection.findOne({ _id: toObjectId(result.patientId) });
-                    if (patient) {
-                        if (args.include.patient.select) {
-                            const selected: any = {};
-                            Object.keys(args.include.patient.select).forEach(key => {
-                                if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                    selected[key] = patient[key];
-                                }
-                            });
-                            result.patient = selected;
-                        } else {
-                            result.patient = { ...patient, id: patient._id.toString() };
+                    const patientId = toObjectId(result.patientId);
+                    if (patientId) {
+                        const patient = await patientCollection.findOne({ _id: patientId });
+                        if (patient) {
+                            if (args.include.patient.select) {
+                                const selected: any = {};
+                                Object.keys(args.include.patient.select).forEach(key => {
+                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                        selected[key] = patient[key];
+                                    }
+                                });
+                                result.patient = selected;
+                            } else {
+                                result.patient = { ...patient, id: patient._id.toString() };
+                            }
                         }
                     }
                 }
                 if (args.include.doctor) {
                     const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
-                    const doctor = await doctorCollection.findOne({ _id: toObjectId(result.doctorId) });
-                    if (doctor) {
-                        result.doctor = { ...doctor, id: doctor._id.toString() };
-                        if (args.include.doctor.user) {
-                            const userCollection = db.collection(COLLECTIONS.USERS);
-                            const user = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                            if (user) {
-                                if (args.include.doctor.user.select) {
-                                    const selected: any = {};
-                                    Object.keys(args.include.doctor.user.select).forEach(key => {
-                                        if (args.include.doctor.user.select[key] && user[key] !== undefined) {
-                                            selected[key] = user[key];
+                    const doctorId = toObjectId(result.doctorId);
+                    if (doctorId) {
+                        const doctor = await doctorCollection.findOne({ _id: doctorId });
+                        if (doctor) {
+                            result.doctor = { ...doctor, id: doctor._id.toString() };
+                            if (args.include.doctor.user) {
+                                const userCollection = db.collection(COLLECTIONS.USERS);
+                                const userId = toObjectId(doctor.userId);
+                                if (userId) {
+                                    const user = await userCollection.findOne({ _id: userId });
+                                    if (user) {
+                                        if (args.include.doctor.user.select) {
+                                            const selected: any = {};
+                                            Object.keys(args.include.doctor.user.select).forEach(key => {
+                                                if (args.include.doctor.user.select[key] && user[key] !== undefined) {
+                                                    selected[key] = user[key];
+                                                }
+                                            });
+                                            result.doctor.user = selected;
+                                        } else {
+                                            result.doctor.user = { ...user, id: user._id.toString() };
                                         }
-                                    });
-                                    result.doctor.user = selected;
-                                } else {
-                                    result.doctor.user = { ...user, id: user._id.toString() };
+                                    }
                                 }
                             }
                         }
@@ -873,18 +918,21 @@ export const prisma = {
                 if (args.include.patient) {
                     const patientCollection = db.collection(COLLECTIONS.PATIENTS);
                     labTests = await Promise.all(labTests.map(async (test: any) => {
-                        const patient = await patientCollection.findOne({ _id: toObjectId(test.patientId) });
-                        if (patient) {
-                            if (args.include.patient.select) {
-                                const selected: any = {};
-                                Object.keys(args.include.patient.select).forEach(key => {
-                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                        selected[key] = patient[key];
-                                    }
-                                });
-                                test.patient = selected;
-                            } else {
-                                test.patient = { ...patient, id: patient._id.toString() };
+                        const patientId = toObjectId(test.patientId);
+                        if (patientId) {
+                            const patient = await patientCollection.findOne({ _id: patientId });
+                            if (patient) {
+                                if (args.include.patient.select) {
+                                    const selected: any = {};
+                                    Object.keys(args.include.patient.select).forEach(key => {
+                                        if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                            selected[key] = patient[key];
+                                        }
+                                    });
+                                    test.patient = selected;
+                                } else {
+                                    test.patient = { ...patient, id: patient._id.toString() };
+                                }
                             }
                         }
                         return { ...test, id: test._id.toString() };
@@ -933,18 +981,21 @@ export const prisma = {
             if (args.include) {
                 if (args.include.patient) {
                     const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-                    const patient = await patientCollection.findOne({ _id: toObjectId(result.patientId) });
-                    if (patient) {
-                        if (args.include.patient.select) {
-                            const selected: any = {};
-                            Object.keys(args.include.patient.select).forEach(key => {
-                                if (args.include.patient.select[key] && patient[key] !== undefined) {
-                                    selected[key] = patient[key];
-                                }
-                            });
-                            result.patient = selected;
-                        } else {
-                            result.patient = { ...patient, id: patient._id.toString() };
+                    const patientId = toObjectId(result.patientId);
+                    if (patientId) {
+                        const patient = await patientCollection.findOne({ _id: patientId });
+                        if (patient) {
+                            if (args.include.patient.select) {
+                                const selected: any = {};
+                                Object.keys(args.include.patient.select).forEach(key => {
+                                    if (args.include.patient.select[key] && patient[key] !== undefined) {
+                                        selected[key] = patient[key];
+                                    }
+                                });
+                                result.patient = selected;
+                            } else {
+                                result.patient = { ...patient, id: patient._id.toString() };
+                            }
                         }
                     }
                 }
