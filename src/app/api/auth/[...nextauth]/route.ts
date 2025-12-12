@@ -370,11 +370,16 @@ const GET = async (req: Request, context: any) => {
         return await handler(req, context);
     } catch (error: any) {
         console.error("NextAuth GET error:", error);
-        if (error.message?.includes("Configuration") || error.message?.includes("NEXTAUTH_SECRET")) {
+        const errorMessage = error?.message || error?.toString() || "";
+        if (errorMessage.includes("Configuration") || 
+            errorMessage.includes("NEXTAUTH_SECRET") || 
+            errorMessage.includes("secret") ||
+            !process.env.NEXTAUTH_SECRET) {
             return new Response(
                 JSON.stringify({ 
                     error: "Configuration", 
-                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables." 
+                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables.",
+                    details: process.env.NEXTAUTH_SECRET ? "NEXTAUTH_URL may be missing" : "NEXTAUTH_SECRET is missing"
                 }),
                 { 
                     status: 500,
@@ -392,11 +397,16 @@ const POST = async (req: Request, context: any) => {
         return await handler(req, context);
     } catch (error: any) {
         console.error("NextAuth POST error:", error);
-        if (error.message?.includes("Configuration") || error.message?.includes("NEXTAUTH_SECRET")) {
+        const errorMessage = error?.message || error?.toString() || "";
+        if (errorMessage.includes("Configuration") || 
+            errorMessage.includes("NEXTAUTH_SECRET") || 
+            errorMessage.includes("secret") ||
+            !process.env.NEXTAUTH_SECRET) {
             return new Response(
                 JSON.stringify({ 
                     error: "Configuration", 
-                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables." 
+                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables.",
+                    details: process.env.NEXTAUTH_SECRET ? "NEXTAUTH_URL may be missing" : "NEXTAUTH_SECRET is missing"
                 }),
                 { 
                     status: 500,
