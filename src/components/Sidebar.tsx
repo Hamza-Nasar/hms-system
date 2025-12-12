@@ -277,14 +277,18 @@ export default function Sidebar() {
                                     primaryTypographyProps={{
                                         fontSize: "0.875rem",
                                         fontWeight: isSelected ? 600 : 500,
-                                        color: (theme) =>
-                                            isSelected
-                                                ? theme.palette.mode === "dark"
-                                                    ? "rgba(255, 255, 255, 0.95)"
-                                                    : "rgb(99, 102, 241)"
-                                                : theme.palette.mode === "dark"
-                                                ? "rgba(255, 255, 255, 0.8)"
-                                                : "rgba(0, 0, 0, 0.8)",
+                                    }}
+                                    sx={{
+                                        "& .MuiListItemText-primary": {
+                                            color: (theme) =>
+                                                isSelected
+                                                    ? theme.palette.mode === "dark"
+                                                        ? "rgba(255, 255, 255, 0.95)"
+                                                        : "rgb(99, 102, 241)"
+                                                    : theme.palette.mode === "dark"
+                                                    ? "rgba(255, 255, 255, 0.8)"
+                                                    : "rgba(0, 0, 0, 0.8)",
+                                        },
                                     }}
                                 />
                                 {item.badge && (
