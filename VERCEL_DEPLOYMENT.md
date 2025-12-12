@@ -29,10 +29,20 @@ Agar aap Vercel par deploy kar rahe hain, to yeh environment variables **zaroor*
 ### 4. GOOGLE_CLIENT_ID (Optional - Agar Google OAuth use karna hai)
 - **Kya hai:** Google OAuth Client ID
 - **Kaise milega:** Google Cloud Console se
+- **Detailed Guide:** See `GOOGLE_OAUTH_SETUP.md` file
+- **Quick Steps:**
+  1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+  2. Create a project (or use existing)
+  3. Enable Google+ API
+  4. Go to APIs & Services → Credentials
+  5. Create OAuth 2.0 Client ID (Web application)
+  6. Add authorized redirect URI: `https://your-app.vercel.app/api/auth/callback/google`
+  7. Copy Client ID and Client Secret
 
 ### 5. GOOGLE_CLIENT_SECRET (Optional - Agar Google OAuth use karna hai)
 - **Kya hai:** Google OAuth Client Secret
-- **Kaise milega:** Google Cloud Console se
+- **Kaise milega:** Google Cloud Console se (same place as Client ID)
+- **Detailed Guide:** See `GOOGLE_OAUTH_SETUP.md` file
 
 ## Vercel mein Environment Variables kaise add karein:
 
