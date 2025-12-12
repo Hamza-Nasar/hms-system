@@ -41,7 +41,13 @@ export const authOptions: NextAuthOptions = {
                     }
                 }
             })]
-            : []),
+            : (() => {
+                // Log in production to help debug missing env vars
+                if (process.env.NODE_ENV === "production") {
+                    console.warn("Google OAuth not configured: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET missing");
+                }
+                return [];
+            })()),
     ],
     session: { strategy: "jwt" },
     callbacks: {

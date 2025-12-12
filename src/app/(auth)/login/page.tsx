@@ -15,12 +15,38 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [providers, setProviders] = useState<Record<string, any> | null>(null);
+    const [providersLoading, setProvidersLoading] = useState(true);
 
     useEffect(() => {
-        // Check available OAuth providers
-        getProviders().then((provs) => {
-            setProviders(provs);
-        });
+        // Check available OAuth providers using both methods
+        const fetchProviders = async () => {
+            try {
+                // Try getProviders first
+                const provs = await getProviders();
+                console.log("Available providers:", provs);
+                setProviders(provs);
+            } catch (error) {
+                console.error("Error fetching providers with getProviders:", error);
+                // Fallback: Check via API endpoint
+                try {
+                    const res = await fetch("/api/auth/providers");
+                    const data = await res.json();
+                    if (data.google) {
+                        // If Google is enabled, create a mock provider object
+                        setProviders({ google: { id: "google", name: "Google" } });
+                    } else {
+                        setProviders({});
+                    }
+                } catch (apiError) {
+                    console.error("Error fetching providers from API:", apiError);
+                    setProviders({});
+                }
+            } finally {
+                setProvidersLoading(false);
+            }
+        };
+
+        fetchProviders();
 
         // Check for OAuth error in URL
         const params = new URLSearchParams(window.location.search);
@@ -157,8 +183,8 @@ export default function LoginPage() {
                         {loading ? "Logging in..." : "Login"}
                     </Button>
 
-                    {/* OAuth Providers */}
-                    {providers && providers.google && (
+                    {/* OAuth Providers - Always show if Google provider exists */}
+                    {providers?.google && (
                         <>
                             <Divider sx={{ my: 2 }}>
                                 <Typography variant="body2" color="text.secondary">
@@ -167,22 +193,24 @@ export default function LoginPage() {
                             </Divider>
 
                             <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                                    <Button
-                                        variant="outlined"
-                                        fullWidth
-                                        startIcon={<GoogleIcon />}
-                                        onClick={() => handleOAuthSignIn("google")}
-                                        disabled={loading}
-                                        sx={{
-                                            borderColor: "divider",
-                                            "&:hover": {
-                                                borderColor: "primary.main",
-                                                bgcolor: "action.hover",
-                                            },
-                                        }}
-                                    >
-                                        Continue with Google
-                                    </Button>
+                                <Button
+                                    variant="outlined"
+                                    fullWidth
+                                    startIcon={<GoogleIcon />}
+                                    onClick={() => handleOAuthSignIn("google")}
+                                    disabled={loading || providersLoading}
+                                    sx={{
+                                        borderColor: "divider",
+                                        color: "text.primary",
+                                        textTransform: "none",
+                                        "&:hover": {
+                                            borderColor: "primary.main",
+                                            bgcolor: "action.hover",
+                                        },
+                                    }}
+                                >
+                                    Continue with Google
+                                </Button>
                             </Box>
                         </>
                     )}
