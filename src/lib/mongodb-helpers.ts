@@ -86,19 +86,25 @@ export async function handleIncludes(
                         if (include.Patient.include.appointments.include.doctor) {
                             const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
                             appointmentList = await Promise.all(appointmentList.map(async (apt: any) => {
-                                const doctor = await doctorCollection.findOne({ _id: toObjectId(apt.doctorId) });
-                                if (doctor) {
-                                    apt.doctor = { ...doctor, id: doctor._id.toString() };
-                                    
-                                    // Handle nested doctor.user
-                                    if (include.Patient.include.appointments.include.doctor.user) {
-                                        const userCollection = db.collection(COLLECTIONS.USERS);
-                                        const doctorUser = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                                        if (doctorUser) {
-                                            apt.doctor.user = { 
-                                                name: doctorUser.name,
-                                                id: doctorUser._id.toString() 
-                                            };
+                                const doctorId = toObjectId(apt.doctorId);
+                                if (doctorId) {
+                                    const doctor = await doctorCollection.findOne({ _id: doctorId });
+                                    if (doctor) {
+                                        apt.doctor = { ...doctor, id: doctor._id.toString() };
+                                        
+                                        // Handle nested doctor.user
+                                        if (include.Patient.include.appointments.include.doctor.user) {
+                                            const userCollection = db.collection(COLLECTIONS.USERS);
+                                            const doctorUserId = toObjectId(doctor.userId);
+                                            if (doctorUserId) {
+                                                const doctorUser = await userCollection.findOne({ _id: doctorUserId });
+                                                if (doctorUser) {
+                                                    apt.doctor.user = { 
+                                                        name: doctorUser.name,
+                                                        id: doctorUser._id.toString() 
+                                                    };
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -149,12 +155,15 @@ export async function handleIncludes(
                         if (include.Doctor.include.appointments.include.patient) {
                             const patientCollection = db.collection(COLLECTIONS.PATIENTS);
                             appointmentList = await Promise.all(appointmentList.map(async (apt: any) => {
-                                const patient = await patientCollection.findOne({ _id: toObjectId(apt.patientId) });
-                                if (patient) {
-                                    apt.patient = { 
-                                        name: patient.name,
-                                        id: patient._id.toString() 
-                                    };
+                                const patientId = toObjectId(apt.patientId);
+                                if (patientId) {
+                                    const patient = await patientCollection.findOne({ _id: patientId });
+                                    if (patient) {
+                                        apt.patient = { 
+                                            name: patient.name,
+                                            id: patient._id.toString() 
+                                        };
+                                    }
                                 }
                                 return { ...apt, id: apt._id.toString() };
                             }));
@@ -193,32 +202,39 @@ export async function handleAppointmentIncludes(
     
     if (include.patient) {
         const patientCollection = db.collection(COLLECTIONS.PATIENTS);
-        const patient = await patientCollection.findOne({ _id: toObjectId(appointment.patientId) });
-        if (patient) {
-            if (include.patient.select) {
-                const selected: any = {};
-                Object.keys(include.patient.select).forEach(key => {
-                    if (include.patient.select[key] && patient[key] !== undefined) {
-                        selected[key] = patient[key];
-                    }
-                });
-                result.patient = selected;
-            } else {
-                result.patient = { ...patient, id: patient._id.toString() };
+        const patientId = toObjectId(appointment.patientId);
+        if (patientId) {
+            const patient = await patientCollection.findOne({ _id: patientId });
+            if (patient) {
+                if (include.patient.select) {
+                    const selected: any = {};
+                    Object.keys(include.patient.select).forEach(key => {
+                        if (include.patient.select[key] && patient[key] !== undefined) {
+                            selected[key] = patient[key];
+                        }
+                    });
+                    result.patient = selected;
+                } else {
+                    result.patient = { ...patient, id: patient._id.toString() };
+                }
             }
         }
     }
     
     if (include.doctor) {
         const doctorCollection = db.collection(COLLECTIONS.DOCTORS);
-        const doctor = await doctorCollection.findOne({ _id: toObjectId(appointment.doctorId) });
-        if (doctor) {
-            result.doctor = { ...doctor, id: doctor._id.toString() };
-            
-            if (include.doctor.user) {
-                const userCollection = db.collection(COLLECTIONS.USERS);
-                const doctorUser = await userCollection.findOne({ _id: toObjectId(doctor.userId) });
-                if (doctorUser) {
+        const doctorId = toObjectId(appointment.doctorId);
+        if (doctorId) {
+            const doctor = await doctorCollection.findOne({ _id: doctorId });
+            if (doctor) {
+                result.doctor = { ...doctor, id: doctor._id.toString() };
+                
+                if (include.doctor.user) {
+                    const userCollection = db.collection(COLLECTIONS.USERS);
+                    const doctorUserId = toObjectId(doctor.userId);
+                    if (doctorUserId) {
+                        const doctorUser = await userCollection.findOne({ _id: doctorUserId });
+                        if (doctorUser) {
                     if (include.doctor.user.select) {
                         const selected: any = {};
                         Object.keys(include.doctor.user.select).forEach(key => {
@@ -226,9 +242,10 @@ export async function handleAppointmentIncludes(
                                 selected[key] = doctorUser[key];
                             }
                         });
-                        result.doctor.user = selected;
-                    } else {
-                        result.doctor.user = { ...doctorUser, id: doctorUser._id.toString() };
+                            result.doctor.user = selected;
+                        } else {
+                            result.doctor.user = { ...doctorUser, id: doctorUser._id.toString() };
+                        }
                     }
                 }
             }
