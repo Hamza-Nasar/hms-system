@@ -6,11 +6,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LucideIcon, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
+import React from "react";
 
 interface PremiumStatCardProps {
     title: string;
     value: string | number;
-    icon: LucideIcon;
+    icon: LucideIcon | React.ComponentType<any>;
     change?: string;
     trend?: "up" | "down" | "neutral";
     className?: string;
@@ -84,7 +85,10 @@ export function PremiumStatCard({
                         "group-hover:scale-105"
                     )}
                 >
-                    <Icon className="h-5 w-5 text-white" />
+                    {React.createElement(Icon as React.ComponentType<any>, {
+                        className: "h-5 w-5 text-white",
+                        sx: { fontSize: 20, color: "white" },
+                    })}
                 </div>
             </CardHeader>
             <CardContent>
