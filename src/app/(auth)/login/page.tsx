@@ -189,37 +189,33 @@ export default function LoginPage() {
                         {loading ? "Logging in..." : "Login"}
                     </Button>
 
-                    {/* OAuth Providers - Always show if Google provider exists */}
-                    {providers?.google && (
-                        <>
-                            <Divider sx={{ my: 2 }}>
-                                <Typography variant="body2" color="text.secondary">
-                                    OR
-                                </Typography>
-                            </Divider>
+                    {/* OAuth Providers - Always show Google button */}
+                    <Divider sx={{ my: 2 }}>
+                        <Typography variant="body2" color="text.secondary">
+                            OR
+                        </Typography>
+                    </Divider>
 
-                            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                                <Button
-                                    variant="outlined"
-                                    fullWidth
-                                    startIcon={<GoogleIcon />}
-                                    onClick={() => handleOAuthSignIn("google")}
-                                    disabled={loading || providersLoading}
-                                    sx={{
-                                        borderColor: "divider",
-                                        color: "text.primary",
-                                        textTransform: "none",
-                                        "&:hover": {
-                                            borderColor: "primary.main",
-                                            bgcolor: "action.hover",
-                                        },
-                                    }}
-                                >
-                                    Continue with Google
-                                </Button>
-                            </Box>
-                        </>
-                    )}
+                    <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                        <Button
+                            variant="outlined"
+                            fullWidth
+                            startIcon={<GoogleIcon />}
+                            onClick={() => handleOAuthSignIn("google")}
+                            disabled={loading || providersLoading}
+                            sx={{
+                                borderColor: "divider",
+                                color: "text.primary",
+                                textTransform: "none",
+                                "&:hover": {
+                                    borderColor: "primary.main",
+                                    bgcolor: "action.hover",
+                                },
+                            }}
+                        >
+                            Continue with Google
+                        </Button>
+                    </Box>
 
                     <Box textAlign="center" sx={{ mt: 2 }}>
                         <Typography variant="body2">
