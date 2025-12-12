@@ -19,10 +19,10 @@ export function PremiumButton({
     ...props
 }: PremiumButtonProps) {
     const variants = {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        gradient: "bg-gradient-to-r from-primary to-purple-600 text-white hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl",
-        outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 dark:text-primary-foreground",
+        gradient: "bg-gradient-to-r from-primary to-purple-600 text-white hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl dark:text-white",
+        outline: "border-2 border-primary text-primary hover:bg-primary hover:text-white dark:text-primary dark:hover:text-white",
+        ghost: "text-foreground hover:bg-accent hover:text-accent-foreground dark:text-foreground",
     };
 
     return (
