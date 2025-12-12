@@ -36,7 +36,7 @@ export default function PremiumThemeToggle() {
     };
 
     const getIcon = () => {
-        return actualMode === "dark" ? <LightMode /> : <DarkMode />;
+        return actualMode === "dark" ? <LightMode sx={{ fontSize: 20 }} /> : <DarkMode sx={{ fontSize: 20 }} />;
     };
 
     const getLabel = () => {
@@ -80,11 +80,7 @@ export default function PremiumThemeToggle() {
                     },
                 }}
             >
-                {React.cloneElement(getIcon() as React.ReactElement, {
-                    sx: {
-                        fontSize: 20,
-                    },
-                })}
+                {getIcon()}
             </Box>
         </Tooltip>
     );
