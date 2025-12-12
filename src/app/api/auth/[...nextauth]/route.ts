@@ -322,8 +322,12 @@ export const authOptions: NextAuthOptions = {
         },
     },
     secret: process.env.NEXTAUTH_SECRET || (() => {
+        // Don't throw during build time - only warn
+        // The error will be caught at runtime when auth is actually used
         if (process.env.NODE_ENV === "production") {
-            throw new Error("NEXTAUTH_SECRET is required in production. Please set it in your environment variables.");
+            console.error("CRITICAL: NEXTAUTH_SECRET is missing in production. Authentication will fail.");
+            // Return a placeholder - actual error will be thrown at runtime
+            return "MISSING_SECRET_PLEASE_SET_NEXTAUTH_SECRET";
         }
         // For development, generate a warning but allow it
         console.warn("NEXTAUTH_SECRET not set. Using a default secret for development only.");
@@ -351,9 +355,18 @@ if (process.env.NODE_ENV === "production" && !process.env.NEXTAUTH_SECRET) {
 
 const handler = NextAuth(authOptions);
 
+// Validate secret at runtime, not build time
+const validateSecret = () => {
+    const secret = process.env.NEXTAUTH_SECRET || authOptions.secret;
+    if (!secret || secret === "MISSING_SECRET_PLEASE_SET_NEXTAUTH_SECRET") {
+        throw new Error("NEXTAUTH_SECRET is required. Please set it in your environment variables.");
+    }
+};
+
 // Wrap handlers to catch configuration errors
 const GET = async (req: Request, context: any) => {
     try {
+        validateSecret();
         return await handler(req, context);
     } catch (error: any) {
         console.error("NextAuth GET error:", error);
@@ -375,6 +388,7 @@ const GET = async (req: Request, context: any) => {
 
 const POST = async (req: Request, context: any) => {
     try {
+        validateSecret();
         return await handler(req, context);
     } catch (error: any) {
         console.error("NextAuth POST error:", error);
