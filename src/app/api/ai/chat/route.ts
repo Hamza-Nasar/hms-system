@@ -3,11 +3,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import OpenAI from "openai";
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(req: NextRequest) {
     try {
         const session = await getServerSession(authOptions);
@@ -38,6 +33,11 @@ export async function POST(req: NextRequest) {
                 { status: 500 }
             );
         }
+
+        // Initialize OpenAI client at runtime (not at build time)
+        const openai = new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY,
+        });
 
         // Build system prompt based on mode and user role
         const userRole = (session.user as any)?.role || "PATIENT";
