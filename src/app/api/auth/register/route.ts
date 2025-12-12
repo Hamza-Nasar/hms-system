@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { MongoDBConnectionError } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
@@ -96,6 +97,28 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ user }, { status: 201 });
     } catch (err: any) {
         console.error("Registration error:", err);
+        
+        // Handle MongoDB connection errors
+        if (err instanceof MongoDBConnectionError || err.name === 'MongoDBConnectionError') {
+            return NextResponse.json(
+                { 
+                    error: err.message || "Database connection failed",
+                    code: "DATABASE_CONNECTION_ERROR"
+                },
+                { status: 503 }
+            );
+        }
+        
+        // Handle other MongoDB errors
+        if (err.message?.includes('MongoDB') || err.message?.includes('connection')) {
+            return NextResponse.json(
+                { 
+                    error: err.message || "Database connection failed. Please check your DATABASE_URL environment variable.",
+                    code: "DATABASE_CONNECTION_ERROR"
+                },
+                { status: 503 }
+            );
+        }
         
         // Handle MongoDB duplicate key error
         if (err.code === 11000 || err.codeName === 'DuplicateKey') {

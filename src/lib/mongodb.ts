@@ -136,15 +136,33 @@ export async function getDb(): Promise<Db> {
         }
         return client.db(dbName);
     } catch (error: any) {
+        const errorMessage = error?.message || error?.toString() || '';
+        const actualUri = process.env.DATABASE_URL || uri;
+        const isMongoDBAtlas = actualUri.includes('mongodb+srv://') || actualUri.includes('mongodb.net');
+        
         if (error instanceof MongoServerSelectionError || 
-            error.message?.includes('connection') || 
-            error.message?.includes('refused') ||
-            error.message?.includes('timeout')) {
-            // Check if it's a replica set issue
-            if (error.message?.includes('replSet') || error.message?.includes('replication')) {
-                throw new MongoDBConnectionError('MongoDB replica set not configured. Please run: node init-replica-set.js or see FIX_MONGODB_REPLICA_SET.md');
+            errorMessage.includes('connection') || 
+            errorMessage.includes('refused') ||
+            errorMessage.includes('timeout') ||
+            errorMessage.includes('ENOTFOUND') ||
+            errorMessage.includes('ECONNREFUSED')) {
+            
+            // Check if it's specifically a replica set issue (only for local MongoDB)
+            if (!isMongoDBAtlas && (errorMessage.includes('replSet') || errorMessage.includes('replication'))) {
+                throw new MongoDBConnectionError('MongoDB replica set not configured for local MongoDB. Please run: node init-replica-set.js or see FIX_MONGODB_REPLICA_SET.md');
             }
-            throw new MongoDBConnectionError('MongoDB connection failed. Please check: 1) MongoDB service is running 2) Port 27017 is accessible 3) Replica set is configured (see FIX_MONGODB_REPLICA_SET.md)');
+            
+            // For MongoDB Atlas, provide different error message
+            if (isMongoDBAtlas) {
+                throw new MongoDBConnectionError(
+                    'MongoDB Atlas connection failed. Please check: 1) DATABASE_URL is correct 2) Network access is allowed in MongoDB Atlas 3) Database user credentials are correct 4) IP address is whitelisted in MongoDB Atlas'
+                );
+            }
+            
+            // For local MongoDB, provide local-specific error message
+            throw new MongoDBConnectionError(
+                'MongoDB connection failed. Please check: 1) MongoDB service is running 2) Port 27017 is accessible 3) DATABASE_URL is correct. For local MongoDB, replica set may be required (see FIX_MONGODB_REPLICA_SET.md)'
+            );
         }
         throw error;
     }

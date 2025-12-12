@@ -49,6 +49,19 @@ export default function RegisterPage() {
             const data = await res.json();
 
             if (!res.ok) {
+                // Check for database connection error
+                if (data.code === "DATABASE_CONNECTION_ERROR" || data.error?.includes("MongoDB") || data.error?.includes("connection")) {
+                    const errorMsg = data.error || "Database connection failed. Please check your DATABASE_URL environment variable in Vercel.";
+                    setError(errorMsg);
+                    toast({ 
+                        title: "Database Connection Error",
+                        description: "Please check your MongoDB connection settings in Vercel environment variables.",
+                        variant: "destructive" 
+                    });
+                    setLoading(false);
+                    return;
+                }
+                
                 // Check for replica set error and provide helpful message
                 if (data.code === "REPLICA_SET_REQUIRED") {
                     const errorMsg = "Database configuration required. MongoDB must be set up as a replica set. Please contact your administrator or check MONGODB_REPLICA_SET_FIX.md for setup instructions.";
