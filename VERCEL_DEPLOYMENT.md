@@ -61,6 +61,38 @@ Agar aap Vercel par deploy kar rahe hain, to yeh environment variables **zaroor*
    - Latest deployment ke saamne **"..."** menu click karein
    - **Redeploy** select karein
 
+## Quick Setup - Vercel mein Environment Variables add karein:
+
+**Important:** Actual values `.env.local` file mein hain (jo Git mein commit nahi hoti). Vercel mein manually add karein:
+
+### 1. NEXTAUTH_SECRET
+- Value: `.env.local` file se copy karein
+- Generate karne ke liye: `openssl rand -base64 32`
+
+### 2. NEXTAUTH_URL
+**Important:** Apni actual Vercel URL use karein (localhost nahi!)
+- Production: `https://your-app-name.vercel.app`
+- Local development: `http://localhost:3000`
+
+### 3. DATABASE_URL
+- Value: `.env.local` file se copy karein
+- Format: `mongodb+srv://username:password@cluster.mongodb.net/database-name?retryWrites=true&w=majority&appName=Cluster0`
+- **Note:** Database name check karein - agar `hms-system` use karna hai to change karein
+
+### 4. GOOGLE_CLIENT_ID
+- Value: `.env.local` file se copy karein
+- Ya Google Cloud Console se generate karein
+
+### 5. GOOGLE_CLIENT_SECRET
+- Value: `.env.local` file se copy karein
+- Ya Google Cloud Console se generate karein
+
+**Important Notes:** 
+- `NEXTAUTH_URL` ko apni actual Vercel URL se replace karein (localhost nahi!)
+- Google OAuth ke liye redirect URI bhi update karein Google Cloud Console mein:
+  - `https://your-app-name.vercel.app/api/auth/callback/google`
+- `DATABASE_URL` mein database name check karein - agar `hms-system` use karna hai to change karein
+
 ## Important Notes:
 
 - Environment variables add karne ke **baad redeploy zaroori hai**
