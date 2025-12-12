@@ -235,16 +235,17 @@ export async function handleAppointmentIncludes(
                     if (doctorUserId) {
                         const doctorUser = await userCollection.findOne({ _id: doctorUserId });
                         if (doctorUser) {
-                    if (include.doctor.user.select) {
-                        const selected: any = {};
-                        Object.keys(include.doctor.user.select).forEach(key => {
-                            if (include.doctor.user.select[key] && doctorUser[key] !== undefined) {
-                                selected[key] = doctorUser[key];
+                            if (include.doctor.user.select) {
+                                const selected: any = {};
+                                Object.keys(include.doctor.user.select).forEach(key => {
+                                    if (include.doctor.user.select[key] && doctorUser[key] !== undefined) {
+                                        selected[key] = doctorUser[key];
+                                    }
+                                });
+                                result.doctor.user = selected;
+                            } else {
+                                result.doctor.user = { ...doctorUser, id: doctorUser._id.toString() };
                             }
-                        });
-                            result.doctor.user = selected;
-                        } else {
-                            result.doctor.user = { ...doctorUser, id: doctorUser._id.toString() };
                         }
                     }
                 }
