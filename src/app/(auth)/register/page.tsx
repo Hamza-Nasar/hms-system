@@ -54,8 +54,7 @@ export default function RegisterPage() {
                     const errorMsg = data.error || "Database connection failed. Please check your DATABASE_URL environment variable in Vercel.";
                     setError(errorMsg);
                     toast({ 
-                        title: "Database Connection Error",
-                        description: "Please check your MongoDB connection settings in Vercel environment variables.",
+                        title: "Database Connection Error: Please check your MongoDB connection settings in Vercel environment variables.",
                         variant: "destructive" 
                     });
                     setLoading(false);
