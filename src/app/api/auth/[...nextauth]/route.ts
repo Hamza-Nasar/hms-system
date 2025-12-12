@@ -4,6 +4,15 @@ import GoogleProvider from "next-auth/providers/google";
 import { prisma, MongoDBConnectionError } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// Validate required environment variables
+if (!process.env.NEXTAUTH_SECRET) {
+    console.error("NEXTAUTH_SECRET is not set. Authentication will not work properly.");
+}
+
+if (!process.env.NEXTAUTH_URL && process.env.NODE_ENV === "production") {
+    console.warn("NEXTAUTH_URL is not set in production. This may cause OAuth callbacks to fail.");
+}
+
 export const authOptions: NextAuthOptions = {
     // Not using PrismaAdapter with JWT strategy - causes conflicts with OAuth
     // We handle user creation manually in signIn callback
@@ -312,7 +321,14 @@ export const authOptions: NextAuthOptions = {
             return session;
         },
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET || (() => {
+        if (process.env.NODE_ENV === "production") {
+            throw new Error("NEXTAUTH_SECRET is required in production. Please set it in your environment variables.");
+        }
+        // For development, generate a warning but allow it
+        console.warn("NEXTAUTH_SECRET not set. Using a default secret for development only.");
+        return "development-secret-change-in-production";
+    })(),
     pages: {
         signIn: "/login",
         error: "/login", // Redirect errors to login page
@@ -328,6 +344,54 @@ export const authOptions: NextAuthOptions = {
     },
 };
 
+// Validate configuration before creating handler
+if (process.env.NODE_ENV === "production" && !process.env.NEXTAUTH_SECRET) {
+    console.error("CRITICAL: NEXTAUTH_SECRET is missing in production!");
+}
+
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST };
+// Wrap handlers to catch configuration errors
+const GET = async (req: Request, context: any) => {
+    try {
+        return await handler(req, context);
+    } catch (error: any) {
+        console.error("NextAuth GET error:", error);
+        if (error.message?.includes("Configuration") || error.message?.includes("NEXTAUTH_SECRET")) {
+            return new Response(
+                JSON.stringify({ 
+                    error: "Configuration", 
+                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables." 
+                }),
+                { 
+                    status: 500,
+                    headers: { "Content-Type": "application/json" }
+                }
+            );
+        }
+        throw error;
+    }
+};
+
+const POST = async (req: Request, context: any) => {
+    try {
+        return await handler(req, context);
+    } catch (error: any) {
+        console.error("NextAuth POST error:", error);
+        if (error.message?.includes("Configuration") || error.message?.includes("NEXTAUTH_SECRET")) {
+            return new Response(
+                JSON.stringify({ 
+                    error: "Configuration", 
+                    message: "NextAuth is not properly configured. Please check NEXTAUTH_SECRET and NEXTAUTH_URL environment variables." 
+                }),
+                { 
+                    status: 500,
+                    headers: { "Content-Type": "application/json" }
+                }
+            );
+        }
+        throw error;
+    }
+};
+
+export { GET, POST };

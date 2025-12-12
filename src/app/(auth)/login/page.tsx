@@ -57,6 +57,13 @@ export default function LoginPage() {
             if (errorParam === "Callback") {
                 setError("OAuth authentication failed. Please try again.");
                 toast({ title: "Authentication failed", variant: "destructive" });
+            } else if (errorParam === "Configuration") {
+                setError("Authentication service is not properly configured. Please contact the administrator.");
+                toast({ 
+                    title: "Configuration Error", 
+                    description: "NEXTAUTH_SECRET or NEXTAUTH_URL may be missing. Please check environment variables.",
+                    variant: "destructive" 
+                });
             } else {
                 setError(`Authentication error: ${errorParam}`);
                 toast({ title: "Authentication error", variant: "destructive" });
