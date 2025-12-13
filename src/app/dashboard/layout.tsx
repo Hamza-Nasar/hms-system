@@ -30,8 +30,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     sx={{
                         overflow: "hidden",
                         position: "relative",
-                        width: { xs: "100%", md: "calc(100% - 280px)" },
-                        ml: { xs: 0, md: "280px" },
+                        width: { xs: "100%", md: "auto" },
+                        flex: { xs: "1 1 100%", md: "1 1 auto" },
                     }}
                 >
                     <Header onMenuClick={handleDrawerToggle} />
@@ -44,6 +44,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                             position: "relative",
                             zIndex: 1,
                             width: "100%",
+                            maxWidth: "100%",
                         }}
                     >
                         {children}

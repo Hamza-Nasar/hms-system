@@ -398,6 +398,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
                 display: { xs: "none", md: "flex" },
                 width: 280,
                 flexShrink: 0,
+                position: "relative",
             }}
         >
             {drawerContent}
