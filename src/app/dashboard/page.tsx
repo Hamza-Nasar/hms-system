@@ -189,12 +189,12 @@ export default async function DashboardPage() {
     ];
 
     return (
-        <div className="space-y-6 animate-fade-in">
-            <div className="space-y-3">
-                <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
+        <div className="space-y-4 sm:space-y-6 animate-fade-in">
+            <div className="space-y-2 sm:space-y-3">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                     Welcome back, {session.user?.name || session.user?.email}! 👋
                 </h1>
-                <p className="text-slate-600 dark:text-slate-400 text-base font-medium">
+                <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-medium">
                     {isAdmin && "Here's what's happening in your hospital today"}
                     {isDoctor && "Manage your appointments and patients"}
                     {isPatient && "View your appointments and medical records"}
@@ -216,14 +216,14 @@ export default async function DashboardPage() {
                             user?.Patient?.appointments?.map((apt: any) => (
                                 <div
                                     key={apt.id}
-                                    className="flex items-center justify-between p-4 rounded-lg border bg-white dark:bg-slate-900 hover:shadow-sm transition-all duration-200 hover-lift"
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 hover-lift"
                                 >
-                                    <div className="space-y-1">
-                                        <p className="font-semibold text-slate-900 dark:text-slate-100">
+                                    <div className="space-y-1 flex-1">
+                                        <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-slate-100">
                                             {new Date(apt.startsAt).toLocaleDateString()} at{" "}
                                             {new Date(apt.startsAt).toLocaleTimeString()}
                                         </p>
-                                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                                             Doctor: <span className="text-slate-900 dark:text-slate-200">{apt.doctor?.user?.name || "Unknown"}</span>
                                         </p>
                                     </div>
@@ -251,14 +251,14 @@ export default async function DashboardPage() {
                             user?.Doctor?.appointments?.map((apt: any) => (
                                 <div
                                     key={apt.id}
-                                    className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 hover-lift"
+                                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 hover-lift"
                                 >
-                                    <div className="space-y-1">
-                                        <p className="font-semibold text-slate-900 dark:text-slate-100">
+                                    <div className="space-y-1 flex-1">
+                                        <p className="font-semibold text-sm sm:text-base text-slate-900 dark:text-slate-100">
                                             {new Date(apt.startsAt).toLocaleDateString()} at{" "}
                                             {new Date(apt.startsAt).toLocaleTimeString()}
                                         </p>
-                                        <p className="text-sm text-slate-600 dark:text-slate-400">
+                                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                                             Patient: <span className="text-slate-900 dark:text-slate-200">{apt.patient?.name || "Unknown"}</span>
                                         </p>
                                     </div>

@@ -1,16 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import RealtimeProvider from "@/components/RealtimeProvider";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
+    const handleDrawerClose = () => {
+        setMobileOpen(false);
+    };
+
     return (
         <RealtimeProvider>
             <Box display="flex" minHeight="100vh" className="dashboard-bg">
-                <Sidebar />
+                <Sidebar mobileOpen={mobileOpen} onMobileClose={handleDrawerClose} />
                 <Box
                     flex={1}
                     display="flex"
@@ -18,17 +30,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     sx={{
                         overflow: "hidden",
                         position: "relative",
+                        width: { xs: "100%", md: "calc(100% - 280px)" },
+                        ml: { xs: 0, md: "280px" },
                     }}
                 >
-                    <Header />
+                    <Header onMenuClick={handleDrawerToggle} />
                     <Box
                         component="main"
                         sx={{
                             flex: 1,
                             overflow: "auto",
-                            p: 3,
+                            p: { xs: 2, sm: 3 },
                             position: "relative",
                             zIndex: 1,
+                            width: "100%",
                         }}
                     >
                         {children}

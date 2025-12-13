@@ -17,6 +17,7 @@ import {
     AccountCircle,
     Settings,
     Logout,
+    Menu as MenuIcon,
 } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -24,7 +25,11 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import NotificationBell from "./NotificationBell";
 import PremiumThemeToggle from "./PremiumThemeToggle";
 
-export default function Header() {
+interface HeaderProps {
+    onMenuClick?: () => void;
+}
+
+export default function Header({ onMenuClick }: HeaderProps) {
     const { data: session } = useSession();
     const router = useRouter();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -61,7 +66,7 @@ export default function Header() {
                 boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
             }}
         >
-            <Toolbar sx={{ justifyContent: "space-between", px: 3, py: 1.5 }}>
+            <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, sm: 3 }, py: 1.5 }}>
                 <Box
                     display="flex"
                     alignItems="center"
@@ -73,6 +78,19 @@ export default function Header() {
                         },
                     }}
                 >
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        onClick={onMenuClick}
+                        sx={{
+                            mr: { xs: 1, sm: 2 },
+                            display: { md: "none" },
+                            color: "text.primary",
+                        }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <Box
                         sx={{
                             width: 36,
@@ -103,7 +121,7 @@ export default function Header() {
                             sx={{
                                 fontWeight: 700,
                                 color: "text.primary",
-                                fontSize: "1.25rem",
+                                fontSize: { xs: "1rem", sm: "1.25rem" },
                             }}
                         >
                             HM System
@@ -113,7 +131,7 @@ export default function Header() {
                             sx={{
                                 color: "text.secondary",
                                 fontSize: "0.7rem",
-                                display: "block",
+                                display: { xs: "none", sm: "block" },
                                 mt: -0.5,
                             }}
                         >
@@ -122,9 +140,14 @@ export default function Header() {
                     </Box>
                 </Box>
 
-                <Box display="flex" alignItems="center" gap={2}>
+                <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 2 }}>
                     <NotificationBell />
-                    <PremiumThemeToggle />
+                    <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                        <PremiumThemeToggle />
+                    </Box>
+                    <Box sx={{ display: { xs: "block", sm: "none" } }}>
+                        <PremiumThemeToggle />
+                    </Box>
 
                     <Tooltip title="Account settings">
                         <IconButton

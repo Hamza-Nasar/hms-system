@@ -11,6 +11,10 @@ import {
     Box,
     Typography,
     Chip,
+    Drawer,
+    useMediaQuery,
+    useTheme,
+    IconButton,
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
@@ -40,9 +44,16 @@ interface MenuItem {
     divider?: boolean;
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+    mobileOpen?: boolean;
+    onMobileClose?: () => void;
+}
+
+export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
     const pathname = usePathname();
     const { data: session } = useSession();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
     const role = (session?.user as any)?.role || "PATIENT";
 
     const isAdmin = role === "admin" || role === "ADMIN";
@@ -82,7 +93,7 @@ export default function Sidebar() {
         return true;
     });
 
-    return (
+    const drawerContent = (
         <Box
             sx={{
                 width: 280,
@@ -211,6 +222,7 @@ export default function Sidebar() {
                                     component={Link}
                                     href={item.href}
                                     selected={isSelected}
+                                    onClick={isMobile ? onMobileClose : undefined}
                                 sx={{
                                     borderRadius: 1.5,
                                     py: 1,
@@ -352,6 +364,43 @@ export default function Sidebar() {
                     v1.0.0
                 </Typography>
             </Box>
+        </Box>
+    );
+
+    // Mobile drawer
+    if (isMobile) {
+        return (
+            <Drawer
+                anchor="left"
+                open={mobileOpen}
+                onClose={onMobileClose}
+                ModalProps={{
+                    keepMounted: true, // Better mobile performance
+                }}
+                sx={{
+                    display: { xs: "block", md: "none" },
+                    "& .MuiDrawer-paper": {
+                        boxSizing: "border-box",
+                        width: 280,
+                        borderRight: "none",
+                    },
+                }}
+            >
+                {drawerContent}
+            </Drawer>
+        );
+    }
+
+    // Desktop sidebar
+    return (
+        <Box
+            sx={{
+                display: { xs: "none", md: "flex" },
+                width: 280,
+                flexShrink: 0,
+            }}
+        >
+            {drawerContent}
         </Box>
     );
 }

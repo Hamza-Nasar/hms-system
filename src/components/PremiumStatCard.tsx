@@ -77,8 +77,8 @@ export function PremiumStatCard({
                 className
             )}
         >
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-slate-600 dark:text-slate-400">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-4 sm:px-6 pt-4 sm:pt-6">
+                <CardTitle className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
                     {title}
                 </CardTitle>
                 <div
@@ -94,8 +94,8 @@ export function PremiumStatCard({
                     })}
                 </div>
             </CardHeader>
-            <CardContent>
-                <div className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
+            <CardContent className="px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-slate-100 mb-1">
                     {value}
                 </div>
                 {change && (

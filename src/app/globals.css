@@ -131,6 +131,7 @@
     @apply bg-background text-foreground;
     background: #fafbfc;
     min-height: 100vh;
+    overflow-x: hidden;
   }
   
   /* Dashboard specific background - clean and minimal */

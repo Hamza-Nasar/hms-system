@@ -59,18 +59,18 @@ export function PremiumCard({
             )}
         >
             {title && (
-                <CardHeader className="pb-3">
-                    <CardTitle className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                <CardHeader className="pb-3 px-4 sm:px-6 pt-4 sm:pt-6">
+                    <CardTitle className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-slate-100">
                         {title}
                     </CardTitle>
                     {description && (
-                        <CardDescription className="text-sm mt-1 text-slate-600 dark:text-slate-400">
+                        <CardDescription className="text-xs sm:text-sm mt-1 text-slate-600 dark:text-slate-400">
                             {description}
                         </CardDescription>
                     )}
                 </CardHeader>
             )}
-            <CardContent className={!title ? "p-6" : ""}>{children}</CardContent>
+            <CardContent className={!title ? "p-4 sm:p-6" : "px-4 sm:px-6 pb-4 sm:pb-6"}>{children}</CardContent>
             {footer && <CardFooter className="pt-4">{footer}</CardFooter>}
         </Card>
     );
