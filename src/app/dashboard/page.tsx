@@ -190,11 +190,11 @@ export default async function DashboardPage() {
 
     return (
         <div className="space-y-6 animate-fade-in">
-            <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+            <div className="space-y-3">
+                <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-slate-900 to-slate-700 dark:from-slate-100 dark:to-slate-300 bg-clip-text text-transparent">
                     Welcome back, {session.user?.name || session.user?.email}! 👋
                 </h1>
-                <p className="text-slate-600 dark:text-slate-400 text-base">
+                <p className="text-slate-600 dark:text-slate-400 text-base font-medium">
                     {isAdmin && "Here's what's happening in your hospital today"}
                     {isDoctor && "Manage your appointments and patients"}
                     {isPatient && "View your appointments and medical records"}
@@ -209,6 +209,7 @@ export default async function DashboardPage() {
                 <PremiumCard
                     title="Recent Appointments"
                     description="Your latest appointment activity"
+                    className="mt-6"
                 >
                     <div className="space-y-3">
                         {isPatient &&
@@ -250,7 +251,7 @@ export default async function DashboardPage() {
                             user?.Doctor?.appointments?.map((apt: any) => (
                                 <div
                                     key={apt.id}
-                                    className="flex items-center justify-between p-4 rounded-lg border bg-white dark:bg-slate-900 hover:shadow-sm transition-all duration-200 hover-lift"
+                                    className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 hover-lift"
                                 >
                                     <div className="space-y-1">
                                         <p className="font-semibold text-slate-900 dark:text-slate-100">

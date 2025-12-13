@@ -49,10 +49,12 @@ export function PremiumCard({
         <Card
             ref={cardRef}
             className={cn(
-                "group relative border shadow-sm transition-all duration-200",
-                "bg-white dark:bg-slate-900",
-                hover && "hover:shadow-md hover:-translate-y-1",
+                "group relative border shadow-sm transition-all duration-300",
+                "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm",
+                "border-slate-200 dark:border-slate-800",
+                hover && "hover:shadow-xl hover:-translate-y-1 hover:border-indigo-200 dark:hover:border-indigo-800",
                 isVisible && "animate-fade-in",
+                "before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-indigo-50/50 before:to-purple-50/50 dark:before:from-indigo-950/20 dark:before:to-purple-950/20 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 before:-z-10",
                 className
             )}
         >

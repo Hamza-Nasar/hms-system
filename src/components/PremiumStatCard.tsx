@@ -68,8 +68,11 @@ export function PremiumStatCard({
         <Card
             ref={cardRef}
             className={cn(
-                "group relative border shadow-sm hover:shadow-md transition-all duration-200 hover-lift",
-                "bg-white dark:bg-slate-900",
+                "group relative border shadow-md hover:shadow-xl transition-all duration-300 hover-lift",
+                "bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm",
+                "border-slate-200 dark:border-slate-800",
+                "hover:border-indigo-200 dark:hover:border-indigo-800",
+                "before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-indigo-50/30 before:to-purple-50/30 dark:before:from-indigo-950/10 dark:before:to-purple-950/10 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300 before:-z-10",
                 isVisible && "animate-fade-in",
                 className
             )}
