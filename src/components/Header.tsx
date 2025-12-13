@@ -175,9 +175,20 @@ export default function Header() {
                             mt: 1.5,
                             minWidth: 200,
                             borderRadius: 2,
-                            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-                            border: "1px solid rgba(102, 126, 234, 0.1)",
-                            background: "rgba(255, 255, 255, 0.95)",
+                            boxShadow: (theme) =>
+                                theme.palette.mode === "dark"
+                                    ? "0 8px 32px rgba(0, 0, 0, 0.4)"
+                                    : "0 8px 32px rgba(0, 0, 0, 0.12)",
+                            border: (theme) =>
+                                `1px solid ${
+                                    theme.palette.mode === "dark"
+                                        ? "rgba(255, 255, 255, 0.1)"
+                                        : "rgba(99, 102, 241, 0.1)"
+                                }`,
+                            background: (theme) =>
+                                theme.palette.mode === "dark"
+                                    ? "rgba(30, 41, 59, 0.95)"
+                                    : "rgba(255, 255, 255, 0.95)",
                             backdropFilter: "blur(20px)",
                             "& .MuiMenuItem-root": {
                                 borderRadius: 1,
@@ -185,7 +196,10 @@ export default function Header() {
                                 my: 0.5,
                                 transition: "all 0.2s ease",
                                 "&:hover": {
-                                    background: "linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)",
+                                    background: (theme) =>
+                                        theme.palette.mode === "dark"
+                                            ? "rgba(99, 102, 241, 0.2)"
+                                            : "linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)",
                                     transform: "translateX(4px)",
                                 },
                             },
